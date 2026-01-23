@@ -1,0 +1,24 @@
+# Build output
+dist/
+unpackage/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# uni-app specific
+.hbuilderx/
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
