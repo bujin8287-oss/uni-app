@@ -35,6 +35,100 @@
 			"style": {
 				"navigationBarTitleText": "功能"
 			}
+		},
+		{
+			"path": "pages/workbench/archive/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/archive/detail",
+			"style": {
+				"navigationBarTitleText": "设备详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/archive/add",
+			"style": {
+				"navigationBarTitleText": "新增设备档案",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/device-scrap/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-scrap/detail",
+			"style": {
+				"navigationBarTitleText": "报废详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/device-scrap/add",
+			"style": {
+				"navigationBarTitleText": "新增报废",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/device-repair/index",
+			"style": {
+				"navigationBarTitleText": "设备维修",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/device-repair/detail",
+			"style": {
+				"navigationBarTitleText": "维修详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/device-select/index",
+			"style": {
+				"navigationBarTitleText": "选择设备",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/applicant-select/index",
+			"style": {
+				"navigationBarTitleText": "申请人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/manufacturer-select/index",
+			"style": {
+				"navigationBarTitleText": "客户选择",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/department-select/index",
+			"style": {
+				"navigationBarTitleText": "责任部门",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
 		}
 	],
 	"globalStyle": {
