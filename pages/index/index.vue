@@ -85,18 +85,20 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import api from '@/api'
 
 const userName = ref('刘明湘')
 const activeTab = ref('yesterday')
+const loading = ref(true)
 
 const stats = reactive({
-	yesterdayProduction: 234,
-	reachRate: '95.3%',
-	passRate: '89.5%',
-	reworkCount: 23,
-	yesterdayOrders: 23,
-	yesterdayOutbound: 345,
+	yesterdayProduction: 0,
+	reachRate: '0%',
+	passRate: '0%',
+	reworkCount: 0,
+	yesterdayOrders: 0,
+	yesterdayOutbound: 0,
 })
 
 const features = reactive([
@@ -113,7 +115,6 @@ const features = reactive([
 
 function openFeature(item) {
 	if (!item || !item.name) return
-	// 跳转到通用功能页面，并把 name 作为参数传递
 	const url = `/pages/feature/index?name=${encodeURIComponent(item.name)}`
 	uni.navigateTo({ url })
 }
@@ -126,6 +127,20 @@ const workOrders = reactive({
 		{ name: '未生产', count: 22, color: '#6CC0FF' },
 		{ name: '未完成', count: 12, color: '#FF9AA2' },
 	],
+})
+
+onMounted(async () => {
+	loading.value = true
+	try {
+		const res = await api.getHomeStats()
+		if (res && res.code === 0 && res.data) {
+			Object.assign(stats, res.data)
+		}
+	} catch (e) {
+		console.error('getHomeStats error', e)
+	} finally {
+		loading.value = false
+	}
 })
 </script>
 

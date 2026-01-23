@@ -2,7 +2,7 @@
 	<view class="app-root">
 		<slot></slot>
 		<!-- 自定义底部导航组件 -->
-		
+		<BottomNav />
 	</view>
 </template>
 

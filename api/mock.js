@@ -1,0 +1,114 @@
+// Mock API functions — 返回 Promise，模拟延迟
+function withDelay(result, ms = 300) {
+	return new Promise((resolve) => {
+		setTimeout(() => resolve(result), ms)
+	})
+}
+
+export function getHomeStats() {
+	// 用于首页统计卡片
+	const data = {
+		yesterdayProduction: 234,
+		reachRate: '95.3%',
+		passRate: '89.5%',
+		reworkCount: 23,
+		yesterdayOrders: 23,
+		yesterdayOutbound: 345,
+	}
+	return withDelay({ code: 0, data })
+}
+
+export function getWorkbenchSections() {
+	const data = [
+		{
+			key: 'plan',
+			title: '计划管理',
+			items: [
+				{ name: '销售订单', icon: 'sales_order' },
+				{ name: '生产计划', icon: 'plan' },
+			],
+		},
+		{
+			key: 'production',
+			title: '生产管理',
+			items: [
+				{ name: '生产工单', icon: 'work_order' },
+				{ name: '生产报工', icon: 'report' },
+				{ name: '报工记录', icon: 'record' },
+				{ name: '生产达成', icon: 'achieve' },
+				{ name: '生产准时', icon: 'ontime' },
+			],
+		},
+		{
+			key: 'quality',
+			title: '质量管理',
+			items: [
+				{ name: '来料检验', icon: 'incoming' },
+				{ name: '过程检验', icon: 'process' },
+				{ name: '最终检验', icon: 'final' },
+				{ name: '追溯管理', icon: 'trace' },
+			],
+		},
+	]
+	return withDelay({ code: 0, data })
+}
+
+export function getAbnormalList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `YCBH${String(id).padStart(8, '0')}`,
+			process: '第五道工序',
+			category: '设备异常',
+			time: '2025-04-23 14:00:20',
+			status: ['unhandled', 'processing', 'handled'][id % 3],
+			statusText: ['未处理', '处理中', '已处理'][id % 3],
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 400)
+}
+
+export function getTodoList({ page = 1, pageSize = 10 } = {}) {
+	const total = 12
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			tag: '审批特办',
+			title: `审批任务 ${id}`,
+			initiator: '李民浩',
+			node: '处理人',
+			time: '2025-04-23 14:00:20',
+			status: id % 4 === 0 ? 'handled' : 'unhandled',
+			statusText: id % 4 === 0 ? '已办结' : '未处理',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+
+export function getMyData() {
+	const data = {
+		user: { name: '刘明湘', company: '华某产业股份有限公司' },
+		stats: { devices: 158, parts: 5846 },
+		tasks: [
+			{ title: '工单任务', completed: 1, total: 5, rate: '20%' },
+			{ title: '待办任务', completed: 2, total: 4, rate: '50%' },
+			{ title: '异常管理', completed: 3, total: 3, rate: '100%' },
+		],
+	}
+	return withDelay({ code: 0, data })
+}
+
+export function getFeatureDetail({ name = '功能页面', code } = {}) {
+	return withDelay({
+		code: 0,
+		data: { name, code, description: `这是 ${name} 的模拟详情数据` },
+	})
+}
+
