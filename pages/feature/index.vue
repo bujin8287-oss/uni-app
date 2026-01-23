@@ -12,10 +12,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from '@dcloudio/uni-app'
+// import { useRoute } from '@dcloudio/uni-app'
+// const route = useRoute()
+// const name = ref(route.query.name || '功能页面')
+import { onLoad } from '@dcloudio/uni-app'
 
-const route = useRoute()
-const name = ref(route.query.name || '功能页面')
+const name = ref('功能页面')
+
+onLoad((options) => {
+	// options 在 uni.navigateTo 的 url query 中传递
+	name.value = options?.name || options?.query?.name || '功能页面'
+})
 
 function goBack() {
 	uni.navigateBack()
