@@ -1,0 +1,14 @@
+# Build output
+dist/
+unpackage/
+
+# Dependencies
+node_modules/
+
+# uni-app specific
+.hbuilderx/
+
+# Config files
+*.config.js
+.eslintrc.js
+.prettierrc.js

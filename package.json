@@ -1,0 +1,50 @@
+{
+  "name": "uni-app-framework",
+  "version": "1.0.0",
+  "description": "uni-app前后端分离项目基础框架",
+  "main": "main.js",
+  "scripts": {
+    "dev": "npm run dev:mp-weixin",
+    "dev:mp-weixin": "uni -p mp-weixin",
+    "build": "npm run build:mp-weixin",
+    "build:mp-weixin": "uni build -p mp-weixin",
+    "lint": "eslint --ext .js,.vue .",
+    "lint:fix": "eslint --ext .js,.vue . --fix",
+    "format": "prettier --write \"**/*.{js,vue,json,md}\"",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "uni-app",
+    "vue3",
+    "framework"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@dcloudio/uni-cli-shared": "^3.0.0-alpha-3060920230817001",
+    "@dcloudio/vite-plugin-uni": "^3.0.0-alpha-3060920230817001",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-vue": "^9.18.1",
+    "fast-check": "^3.15.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
+    "vite": "^5.2.8",
+    "vue": "^3.3.8"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
