@@ -21,7 +21,17 @@ const name = ref('功能页面')
 
 onLoad((options) => {
 	// options 在 uni.navigateTo 的 url query 中传递
-	name.value = options?.name || options?.query?.name || '功能页面'
+	const raw = options?.name || options?.query?.name
+	if (raw) {
+		try {
+			const normalized = String(raw).replace(/\+/g, ' ')
+			name.value = decodeURIComponent(normalized) || normalized
+		} catch (e) {
+			name.value = String(raw)
+		}
+	} else {
+		name.value = '功能页面'
+	}
 })
 
 function goBack() {
