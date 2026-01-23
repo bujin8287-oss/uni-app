@@ -82,6 +82,26 @@ const sections = reactive([
 
 function openFeature(item) {
 	if (!item || !item.name) return
+	
+	// 设备档案跳转到专门的页面
+	if (item.name === '设备档案') {
+		uni.navigateTo({ url: '/pages/workbench/archive/index' })
+		return
+	}
+	
+	// 设备报废跳转到专门的页面
+	if (item.name === '设备报废') {
+		uni.navigateTo({ url: '/pages/workbench/device-scrap/index' })
+		return
+	}
+	
+	// 设备维修跳转到专门的页面
+	if (item.name === '设备维修') {
+		uni.navigateTo({ url: '/pages/workbench/device-repair/index' })
+		return
+	}
+	
+	// 其他功能跳转到通用功能页
 	const url = `/pages/feature/index?name=${encodeURIComponent(item.name)}`
 	uni.navigateTo({ url })
 }
