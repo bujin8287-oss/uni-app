@@ -112,3 +112,224 @@ export function getFeatureDetail({ name = '功能页面', code } = {}) {
 	})
 }
 
+export function getDeviceList() {
+	const data = [
+		{
+			id: 1,
+			name: '车床',
+			code: 'SBBH0000001',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+		{
+			id: 2,
+			name: '车床',
+			code: 'SBBH0000002',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+		{
+			id: 3,
+			name: '车床',
+			code: 'SBBH0000003',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+		{
+			id: 4,
+			name: '车床',
+			code: 'SBBH0000004',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+		{
+			id: 5,
+			name: '车床',
+			code: 'SBBH0000005',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+		{
+			id: 6,
+			name: '车床',
+			code: 'SBBH0000006',
+			useDate: '2025.04.24',
+			department: '第一生产车间',
+		},
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getDeviceDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: 'SBBH0000001',
+		name: '车床',
+		model: 'GGXH00001',
+		serialNumber: 'CCBH00001',
+		serviceLife: '20',
+		startDate: '2020.01.01',
+		assetCode: 'GDZC000001',
+		manufacturer: '比亚华设备生产有限公司',
+		department: '第一生产车间',
+		images: [
+			'/static/logo.png', // 使用项目中的示例图片
+		],
+		remark: '无',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getDeviceScrapList() {
+	const data = [
+		{
+			id: 1,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+		{
+			id: 2,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+		{
+			id: 3,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+		{
+			id: 4,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+		{
+			id: 5,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+		{
+			id: 6,
+			code: 'BFDBH0000001',
+			name: '车床',
+			serviceLife: '20',
+			scrapDate: '2025.04.24',
+		},
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getDeviceScrapDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		scrapCode: 'BFDBH000001',
+		deviceCode: 'SBBH0000001',
+		deviceName: '车床',
+		model: 'GGXH00001',
+		usedYears: '20',
+		startDate: '2020.01.01',
+		assetCode: 'GDZC000001',
+		manufacturer: '比亚华设备生产有限公司',
+		applicant: '张浩',
+		scrapDate: '2025.04.24 14:00:00',
+		reason: '无法正常使用',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getDeviceRepairList() {
+	const data = [
+		{
+			id: 1,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'pending',
+			statusText: '未处理',
+		},
+		{
+			id: 2,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'pending',
+			statusText: '未处理',
+		},
+		{
+			id: 3,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'pending',
+			statusText: '未处理',
+		},
+		{
+			id: 4,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'completed',
+			statusText: '已处理',
+		},
+		{
+			id: 5,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'completed',
+			statusText: '已处理',
+		},
+		{
+			id: 6,
+			code: 'WXDH00000001',
+			deviceName: '切割机',
+			reporter: '孙磊',
+			department: '第五生产车间',
+			reportTime: '2025.04.24',
+			status: 'completed',
+			statusText: '已处理',
+		},
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getDeviceRepairDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		repairCode: 'BXDBH00001',
+		deviceCode: 'SBBH0000001',
+		deviceName: '切割机',
+		department: '第五生产车间',
+		reporter: '孙磊',
+		reportTime: '2025.04.24 14:00:00',
+		faultDescription: '设备有异响，偶尔卡顿',
+		result: '已恢复正常',
+		handler: '章邵',
+		causeAnalysis: '设备零件损坏',
+		solution: '更换零件',
+		images: [
+			'/static/logo.png',
+		],
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
