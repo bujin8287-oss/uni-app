@@ -143,6 +143,7 @@
 				</view>
 			</view>
 		</view>
+		<BottomNav />
 	</view>
 </template>
 
@@ -150,6 +151,7 @@
 import { reactive, ref, onMounted } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import api from '@/api'
+import BottomNav from '@/components/business/BottomNav.vue'
 
 const userName = ref('刘明湘')
 const activeTab = ref('yesterday')
