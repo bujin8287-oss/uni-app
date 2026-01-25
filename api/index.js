@@ -8,6 +8,16 @@ export const api = {
 	getTodoList: mock.getTodoList,
 	getMyData: mock.getMyData,
 	getFeatureDetail: mock.getFeatureDetail,
+	loginWithPassword: mock.loginWithPassword,
+	loginWithPhone: mock.loginWithPhone,
+	getSalesOrders: mock.getSalesOrders,
+	getCustomers: mock.getCustomers,
+	getProducts: mock.getProducts,
+	getSalesOrderDetail: mock.getSalesOrderDetail,
+	getProductPlans: mock.getProductPlans,
+	getProductPlanDetail: mock.getProductPlanDetail,
+	getProductOrders: mock.getProductOrders,
+	getProductOrderDetail: mock.getProductOrderDetail,
 }
 
 export default api

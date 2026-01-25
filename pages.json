@@ -1,6 +1,12 @@
 {
 	"pages": [
 		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -34,6 +40,145 @@
 			"path": "pages/feature/index",
 			"style": {
 				"navigationBarTitleText": "功能"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/index",
+			"style": {
+				"navigationBarTitleText": "销售订单",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/index",
+			"style": {
+				"navigationBarTitleText": "生产计划",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/detail",
+			"style": {
+				"navigationBarTitleText": "计划详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/schedule",
+			"style": {
+				"navigationBarTitleText": "排程",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/workshop",
+			"style": {
+				"navigationBarTitleText": "生产车间",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/line",
+			"style": {
+				"navigationBarTitleText": "生产产线",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/route",
+			"style": {
+				"navigationBarTitleText": "工艺路线",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/add",
+			"style": {
+				"navigationBarTitleText": "新增生产计划",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/customer-select",
+			"style": {
+				"navigationBarTitleText": "客户选择",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/urgency-select",
+			"style": {
+				"navigationBarTitleText": "紧急程度",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/product-select",
+			"style": {
+				"navigationBarTitleText": "产品选择",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/product-plan/unit-select",
+			"style": {
+				"navigationBarTitleText": "单位",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/add",
+			"style": {
+				"navigationBarTitleText": "新增销售订单",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/customer-select",
+			"style": {
+				"navigationBarTitleText": "客户选择",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/urgency-select",
+			"style": {
+				"navigationBarTitleText": "紧急程度",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/product-select",
+			"style": {
+				"navigationBarTitleText": "产品选择",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/detail",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/plan-management/sales-order/unit-select",
+			"style": {
+				"navigationBarTitleText": "单位",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -130,10 +275,283 @@
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		}
+		,
+		{
+			"path": "pages/workbench/product-management/product-record-sub/index",
+			"style": {
+				"navigationBarTitleText": "生产报工",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/detail",
+			"style": {
+				"navigationBarTitleText": "工单详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/report",
+			"style": {
+				"navigationBarTitleText": "报工",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/select-group",
+			"style": {
+				"navigationBarTitleText": "报工班组",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/select-employee",
+			"style": {
+				"navigationBarTitleText": "报工员工",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/abnormal",
+			"style": {
+				"navigationBarTitleText": "异常填报",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/abnormal-level1",
+			"style": {
+				"navigationBarTitleText": "一级异常",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/abnormal-level2",
+			"style": {
+				"navigationBarTitleText": "二级异常",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/responsibility-dept",
+			"style": {
+				"navigationBarTitleText": "责任部门",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-record-sub/responsibility-person",
+			"style": {
+				"navigationBarTitleText": "责任人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/product-management/work-record/index",
+			"style": {
+				"navigationBarTitleText": "报工记录",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/work-record/detail",
+			"style": {
+				"navigationBarTitleText": "报工详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/product-management/product-complete/index",
+			"style": {
+				"navigationBarTitleText": "生产达成",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-complete/detail",
+			"style": {
+				"navigationBarTitleText": "生产达成详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/product-management/product-order/index",
+			"style": {
+				"navigationBarTitleText": "生产工单",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-order/detail",
+			"style": {
+				"navigationBarTitleText": "工单详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/product-management/product-on-time/index",
+			"style": {
+				"navigationBarTitleText": "生产准时",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/product-management/product-on-time/detail",
+			"style": {
+				"navigationBarTitleText": "生产准时详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/quality-control/incoming-inspection/index",
+			"style": {
+				"navigationBarTitleText": "来料检验",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/incoming-inspection/detail",
+			"style": {
+				"navigationBarTitleText": "检验详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/incoming-inspection/add",
+			"style": {
+				"navigationBarTitleText": "新增来料检验",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/incoming-inspection/inspector-select/index",
+			"style": {
+				"navigationBarTitleText": "检验人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/final-inspection/index",
+			"style": {
+				"navigationBarTitleText": "最终检验",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/final-inspection/detail",
+			"style": {
+				"navigationBarTitleText": "检验详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/final-inspection/add",
+			"style": {
+				"navigationBarTitleText": "结果录入",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/final-inspection/inspector-select/index",
+			"style": {
+				"navigationBarTitleText": "检验人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/incoming-inspection/material-select/index",
+			"style": {
+				"navigationBarTitleText": "物料选择",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/quality-control/process-inspection/index",
+			"style": {
+				"navigationBarTitleText": "过程检验",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/process-inspection/detail",
+			"style": {
+				"navigationBarTitleText": "检验详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/process-inspection/add",
+			"style": {
+				"navigationBarTitleText": "结果录入",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/process-inspection/inspector-select/index",
+			"style": {
+				"navigationBarTitleText": "检验人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
+		,
+		{
+			"path": "pages/workbench/quality-control/trace-management/index",
+			"style": {
+				"navigationBarTitleText": "追溯管理",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/quality-control/trace-management/detail",
+			"style": {
+				"navigationBarTitleText": "追溯详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
+	
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
