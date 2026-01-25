@@ -130,6 +130,113 @@ export function loginWithPhone({ phone } = {}) {
 	// 返回用户信息和token
 	return withDelay({ code: 0, data: { token: 'mock-token-phone', user: { name: `用户${phoneStr.slice(-4)}` } } }, 500)
 }
+
+export function getSalesOrders({ page = 1, pageSize = 10 } = {}) {
+	const total = 26
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `XSDBH${String(id).padStart(8, '0')}`,
+			productName: '笔记本电脑',
+			totalQuantity: 1000,
+			deliveryDate: '2025.10.01',
+			type: '普通',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+export function getSalesOrderDetail({ code } = {}) {
+	const demo = {
+		code: code || 'XSDBH00000001',
+		customerName: '霍的微漾有限公司',
+		urgency: '普通',
+		deliveryDate: '2025.10.01',
+		productCode: 'CPHB00001',
+		productName: '笔记本电脑',
+		quantity: 1000,
+		unit: '台',
+		attachments: [
+			{ name: '合同.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+			{ name: '封面.png', url: 'https://via.placeholder.com/800x600.png' },
+		],
+		remark: '新客户，注意',
+	}
+	return withDelay({ code: 0, data: demo }, 300)
+}
+// Product plan mocks
+export function getProductPlans({ page = 1, pageSize = 10 } = {}) {
+	const total = 12
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `SCJHBH${String(id).padStart(8, '0')}`,
+			product: '笔记本电脑普通',
+			qty: 1000,
+			date: '2025.05.01 ~ 2025.10.01',
+			status: id % 2 === 0 ? '进行中' : '未开始',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 300)
+}
+
+export function getProductPlanDetail({ code } = {}) {
+	const demo = {
+		code: code || 'SCJHBH00000001',
+		customerName: '霍的微漾有限公司',
+		productCode: 'CPBH00001',
+		productName: '笔记本电脑普通',
+		deliveryDate: '2025.10.01',
+		quantity: 1000,
+		unit: '台',
+		urgency: '普通',
+		createTime: '2025.03.12 10:00',
+		creator: '刘超',
+	}
+	return withDelay({ code: 0, data: demo }, 300)
+}
+// Product order mocks
+export function getProductOrders({ page = 1, pageSize = 10 } = {}) {
+	const total = 20
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `GDBH${String(id).padStart(8, '0')}`,
+			productName: '笔记本电脑',
+			quantity: 1000,
+			dateRange: '2025.08.01 ~ 2025.10.01',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 300)
+}
+
+export function getProductOrderDetail({ code } = {}) {
+	const demo = {
+		code: code || 'SCGD00000001',
+		orderName: '外贸一生产工单',
+		urgency: '普通',
+		productCode: 'CPBH000001',
+		productName: '笔记本电脑',
+		quantity: 1000,
+		produced: 800,
+		unit: '台',
+		batchNo: 'PCH000001',
+		startDate: '2025.08.01',
+		endDate: '2025.10.01',
+		salesOrder: 'XSDDH000001',
+		customerName: '霍的微漾有限公司',
+		creator: '刘超',
+	}
+	return withDelay({ code: 0, data: demo }, 300)
+}
 export function getDeviceList() {
 	const data = [
 		{
@@ -351,3 +458,49 @@ export function getDeviceRepairDetail({ id } = {}) {
 	return withDelay({ code: 0, data }, 300)
 }
 
+export function getCustomers({ page = 1, pageSize = 10, query = '' } = {}) {
+	const all = [
+		'启航智联科技有限公司',
+		'悦动新能源发展公司',
+		'星瀚文化传媒工作室',
+		'安瑞医药研发有限公司',
+		'途顺物流运输集团',
+		'创美家居设计公司',
+		'恒信金融服务有限公司',
+		'绿源生态农业发展公司',
+		'锐科电子科技有限公司',
+		'品尚餐饮管理集团',
+		'博远工程建设有限公司',
+		'乐活健康管理公司',
+		'智诚法律咨询事务所',
+	]
+	const filtered = all.filter((name) => !query || name.includes(query))
+	const total = filtered.length
+	const items = filtered.slice((page - 1) * pageSize, page * pageSize).map((name, idx) => ({
+		id: (page - 1) * pageSize + idx + 1,
+		name,
+	}))
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 300)
+}
+
+export function getProducts({ page = 1, pageSize = 10, query = '' } = {}) {
+	const all = [
+		{ code: 'CPHB00001', name: '无线快充双模机械键盘' },
+		{ code: 'CPHB00002', name: '高清夜视双录行车记录仪' },
+		{ code: 'CPHB00003', name: '便携式迷你投影仪' },
+		{ code: 'CPHB00004', name: '智能手环心率监测手表' },
+		{ code: 'CPHB00005', name: '高清4K智能网络电视' },
+		{ code: 'CPHB00006', name: '便携式移动固态硬盘' },
+		{ code: 'CPHB00007', name: '家用迷你激光打印机' },
+		{ code: 'CPHB00008', name: '智能语音控制音箱' },
+		{ code: 'CPHB00009', name: '无线充电立式手机支架' },
+		{ code: 'CPHB00010', name: '高清运动相机防水套装' },
+		{ code: 'CPHB00011', name: '电子墨水屏阅读器' },
+		{ code: 'CPHB00012', name: '迷你无线鼠标静音款' },
+		{ code: 'CPHB00013', name: '无线降噪头戴式耳机' },
+	]
+	const filtered = all.filter((p) => !query || p.code.includes(query) || p.name.includes(query))
+	const total = filtered.length
+	const items = filtered.slice((page - 1) * pageSize, page * pageSize)
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 300)
+}
