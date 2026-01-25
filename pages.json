@@ -274,8 +274,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/product-management/product-record-sub/index",
 			"style": {
@@ -355,8 +354,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/product-management/work-record/index",
 			"style": {
@@ -372,8 +370,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/product-management/product-complete/index",
 			"style": {
@@ -389,8 +386,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/product-management/product-order/index",
 			"style": {
@@ -406,8 +402,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/product-management/product-on-time/index",
 			"style": {
@@ -423,8 +418,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/quality-control/incoming-inspection/index",
 			"style": {
@@ -496,8 +490,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/quality-control/process-inspection/index",
 			"style": {
@@ -529,8 +522,7 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
-		}
-		,
+		},
 		{
 			"path": "pages/workbench/quality-control/trace-management/index",
 			"style": {
@@ -551,33 +543,8 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-	
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar": {
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/abnormal/index",
-				"text": "异常"
-			},
-			{
-				"pagePath": "pages/workbench/index",
-				"text": "工作台"
-			},
-			{
-				"pagePath": "pages/todo/index",
-				"text": "待办"
-			},
-			{
-				"pagePath": "pages/my/index",
-				"text": "我的"
-			}
-		]
 	},
 	"uniIdRouter": {}
 }

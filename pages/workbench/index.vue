@@ -20,11 +20,13 @@
 				</view>
 			</view>
 		</view>
+		<BottomNav />
 	</view>
 </template>
 
 <script setup>
 import { reactive } from 'vue'
+import BottomNav from '@/components/business/BottomNav.vue'
 
 const sections = reactive([
 	{

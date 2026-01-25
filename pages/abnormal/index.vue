@@ -35,11 +35,13 @@
 				</view>
 			</view>
 		</scroll-view>
+		<BottomNav />
 	</view>
 </template>
 
 <script setup>
 import { ref, computed, reactive } from 'vue'
+import BottomNav from '@/components/business/BottomNav.vue'
 
 const query = ref('')
 const showStatus = ref(false)
