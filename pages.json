@@ -244,38 +244,6 @@
 			}
 		},
 		{
-			"path": "pages/workbench/device-select/index",
-			"style": {
-				"navigationBarTitleText": "选择设备",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/workbench/applicant-select/index",
-			"style": {
-				"navigationBarTitleText": "申请人",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/workbench/manufacturer-select/index",
-			"style": {
-				"navigationBarTitleText": "客户选择",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/workbench/department-select/index",
-			"style": {
-				"navigationBarTitleText": "责任部门",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
-			}
-		},
-		{
 			"path": "pages/workbench/product-management/product-record-sub/index",
 			"style": {
 				"navigationBarTitleText": "生产报工",
