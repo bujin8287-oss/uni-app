@@ -4,7 +4,7 @@
 			<view class="back-btn" @click="goBack">
 				<text class="back-icon">‹</text>
 			</view>
-			<text class="header-title">新增报废</text>
+			<text class="header-title">新增保养</text>
 			<view class="header-right"></view>
 		</view>
 
@@ -39,14 +39,44 @@
 				</view>
 			</view>
 
-			<!-- 报废原因 -->
+			<!-- 保养内容 -->
 			<view class="section">
-				<text class="section-title">报废原因</text>
+				<text class="section-title">保养内容</text>
 				<view class="form-card">
 					<textarea 
 						class="textarea-input"
-						placeholder="请输入..."
-						v-model="formData.reason"
+						placeholder="请输入备注信息..."
+						v-model="formData.content"
+						:maxlength="200"
+					/>
+				</view>
+			</view>
+
+			<!-- 保养图片 -->
+			<view class="section">
+				<view class="section-header">
+					<text class="section-title">保养图片</text>
+					<text class="section-tip">可上传jpg、png、pdf等格式文件</text>
+				</view>
+				<view class="image-upload">
+					<view class="image-item" v-for="(img, index) in images" :key="index">
+						<image :src="img" class="uploaded-image" mode="aspectFill" />
+						<view class="image-delete" @click="deleteImage(index)">×</view>
+					</view>
+					<view v-if="images.length < 9" class="upload-btn" @click="chooseImage">
+						<text class="upload-icon">+</text>
+					</view>
+				</view>
+			</view>
+
+			<!-- 备注 -->
+			<view class="section">
+				<text class="section-title">备注</text>
+				<view class="form-card">
+					<textarea 
+						class="textarea-input"
+						placeholder="请输入备注信息..."
+						v-model="formData.remark"
 						:maxlength="200"
 					/>
 				</view>
@@ -64,68 +94,70 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { createMaintenance } from '@/api/mock.js'
 
 const formData = reactive({
-	scrapCode: '',
+	code: '',
 	deviceName: '',
-	model: '',
-	applicant: '',
-	scrapDate: '',
-	reason: ''
+	maintainer: '',
+	maintenanceTime: '',
+	content: '',
+	remark: '',
 })
 
-const formFields = [
-	{ label: '报废单编号', key: 'scrapCode', type: 'input', placeholder: '请输入设备编号' },
-	{ label: '设备名称', key: 'deviceName', type: 'picker', placeholder: '请选择' },
-	{ label: '规格型号', key: 'model', type: 'input', placeholder: '请输入规格型号' },
-	{ label: '申请人', key: 'applicant', type: 'picker', placeholder: '请选择' },
-	{ label: '报废时间', key: 'scrapDate', type: 'picker', placeholder: '请选择' }
-]
+const images = ref([])
 
 onMounted(() => {
-	// 自动生成报废单编号
+	// 自动生成保养编号
 	generateCode()
 	
 	// 监听设备选择返回
-	uni.$on('deviceSelected', handleDeviceSelected)
+	uni.$on('maintenanceDeviceSelected', handleDeviceSelected)
 	
-	// 监听申请人选择返回
-	uni.$on('applicantSelected', handleApplicantSelected)
+	// 监听保养人选择返回
+	uni.$on('maintainerSelected', handleMaintainerSelected)
 })
 
 onUnmounted(() => {
 	// 清理事件监听
-	uni.$off('deviceSelected', handleDeviceSelected)
-	uni.$off('applicantSelected', handleApplicantSelected)
+	uni.$off('maintenanceDeviceSelected', handleDeviceSelected)
+	uni.$off('maintainerSelected', handleMaintainerSelected)
 })
 
 function generateCode() {
-	// 生成报废单编号：BFDBH + 时间戳后7位
+	// 生成保养编号：SBBYBH + 时间戳后7位
 	const timestamp = Date.now().toString()
-	formData.scrapCode = `BFDBH${timestamp.slice(-7)}`
+	formData.code = `SBBYBH${timestamp.slice(-7)}`
 }
 
 function handleDeviceSelected(device) {
 	formData.deviceName = device
 }
 
-function handleApplicantSelected(applicant) {
-	formData.applicant = applicant
+function handleMaintainerSelected(maintainer) {
+	formData.maintainer = maintainer
 }
+
+const formFields = [
+	{ label: '保养编号', key: 'code', type: 'input', placeholder: '请输入保养编号' },
+	{ label: '保养设备', key: 'deviceName', type: 'picker', placeholder: '请选择' },
+	{ label: '保养人', key: 'maintainer', type: 'picker', placeholder: '请选择' },
+	{ label: '保养时间', key: 'maintenanceTime', type: 'picker', placeholder: '请选择' },
+]
 
 function openPicker(key) {
 	if (key === 'deviceName') {
 		// 跳转到设备选择页面
 		uni.navigateTo({ 
-			url: `/pages/workbench/device-scrap/device-select?current=${encodeURIComponent(formData.deviceName || '')}` 
+			url: `/pages/workbench/device-maintenance/device-select?current=${encodeURIComponent(formData.deviceName || '')}` 
 		})
-	} else if (key === 'applicant') {
-		// 跳转到申请人选择页面
+	} else if (key === 'maintainer') {
+		// 跳转到保养人选择页面
 		uni.navigateTo({ 
-			url: `/pages/workbench/device-scrap/applicant-select?current=${encodeURIComponent(formData.applicant || '')}` 
+			url: `/pages/workbench/device-maintenance/maintainer-select?current=${encodeURIComponent(formData.maintainer || '')}` 
 		})
-	} else if (key === 'scrapDate') {
+	} else if (key === 'maintenanceTime') {
 		// 日期时间选择
 		const now = new Date()
 		const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
@@ -153,7 +185,7 @@ function openPicker(key) {
 										// 格式化为 2025.04.24 14:00:00
 										const [year, month, day] = selectedDate.split('-')
 										const [hour, minute] = selectedTime.split(':')
-										formData.scrapDate = `${year}.${month}.${day} ${hour}:${minute}:00`
+										formData.maintenanceTime = `${year}.${month}.${day} ${hour}:${minute}:00`
 									}
 								}
 							})
@@ -165,32 +197,68 @@ function openPicker(key) {
 	}
 }
 
-function handleSubmit() {
+function chooseImage() {
+	uni.chooseImage({
+		count: 9 - images.value.length,
+		sizeType: ['compressed'],
+		sourceType: ['album', 'camera'],
+		success: (res) => {
+			images.value = images.value.concat(res.tempFilePaths)
+		}
+	})
+}
+
+function deleteImage(index) {
+	images.value.splice(index, 1)
+}
+
+async function handleSubmit() {
 	// 验证必填项
-	if (!formData.scrapCode) {
-		uni.showToast({ title: '请输入报废单编号', icon: 'none' })
+	if (!formData.code) {
+		uni.showToast({ title: '请输入保养编号', icon: 'none' })
 		return
 	}
 	if (!formData.deviceName) {
-		uni.showToast({ title: '请选择设备名称', icon: 'none' })
+		uni.showToast({ title: '请选择保养设备', icon: 'none' })
 		return
 	}
 
 	// 提交数据
 	uni.showLoading({ title: '提交中...' })
 	
-	setTimeout(() => {
-		uni.hideLoading()
-		uni.showToast({ 
-			title: '提交成功', 
-			icon: 'success',
-			duration: 1500
-		})
+	try {
+		const submitData = {
+			...formData,
+			images: images.value
+		}
 		
-		setTimeout(() => {
-			uni.navigateBack()
-		}, 1500)
-	}, 1000)
+		const res = await createMaintenance(submitData)
+		
+		if (res.code === 0) {
+			uni.hideLoading()
+			uni.showToast({ 
+				title: '提交成功', 
+				icon: 'success',
+				duration: 1500
+			})
+			
+			setTimeout(() => {
+				uni.navigateBack()
+			}, 1500)
+		} else {
+			uni.hideLoading()
+			uni.showToast({
+				title: res.message || '提交失败',
+				icon: 'none'
+			})
+		}
+	} catch (error) {
+		uni.hideLoading()
+		uni.showToast({
+			title: '提交失败',
+			icon: 'none'
+		})
+	}
 }
 
 function goBack() {
@@ -198,7 +266,7 @@ function goBack() {
 }
 </script>
 
-<style>
+<style scoped>
 .add-page {
 	background: #f7f6fb;
 	min-height: 100vh;
@@ -242,10 +310,18 @@ function goBack() {
 .form-scroll {
 	flex: 1;
 	padding: 20rpx;
+	box-sizing: border-box;
 }
 
 .section {
 	margin-bottom: 24rpx;
+}
+
+.section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 16rpx;
 }
 
 .section-title {
@@ -254,6 +330,11 @@ function goBack() {
 	font-weight: 700;
 	display: block;
 	margin-bottom: 16rpx;
+}
+
+.section-tip {
+	color: #9b9b9b;
+	font-size: 22rpx;
 }
 
 .form-card {
@@ -277,7 +358,7 @@ function goBack() {
 .field-label {
 	color: #333;
 	font-size: 28rpx;
-	width: 200rpx;
+	width: 160rpx;
 	flex-shrink: 0;
 }
 
@@ -314,6 +395,58 @@ function goBack() {
 .picker-arrow {
 	color: #cfcfe6;
 	font-size: 32rpx;
+}
+
+.image-upload {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16rpx;
+}
+
+.image-item {
+	position: relative;
+	width: 200rpx;
+	height: 200rpx;
+}
+
+.uploaded-image {
+	width: 100%;
+	height: 100%;
+	border-radius: 8rpx;
+	background: #f5f5f5;
+}
+
+.image-delete {
+	position: absolute;
+	top: -8rpx;
+	right: -8rpx;
+	width: 40rpx;
+	height: 40rpx;
+	background: #ff5a5a;
+	color: #fff;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 32rpx;
+	line-height: 1;
+}
+
+.upload-btn {
+	width: 200rpx;
+	height: 200rpx;
+	border: 2rpx dashed #cfcfe6;
+	border-radius: 8rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fafafa;
+}
+
+.upload-icon {
+	font-size: 60rpx;
+	color: #cfcfe6;
+	line-height: 1;
 }
 
 .textarea-input {

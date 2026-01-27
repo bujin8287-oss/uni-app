@@ -504,3 +504,377 @@ export function getProducts({ page = 1, pageSize = 10, query = '' } = {}) {
 	const items = filtered.slice((page - 1) * pageSize, page * pageSize)
 	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 300)
 }
+
+// 设备保养相关 API
+export function getMaintenanceList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `SBBYBH${String(id).padStart(7, '0')}`,
+			deviceName: ['切割机', '焊接机', '打磨机', '喷涂机', '冲压机'][i % 5],
+			maintainer: ['孙磊', '李伟', '陈曦', '王梓涵'][i % 4],
+			maintenanceTime: '2025.04.24 14:00:00',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+
+export function getMaintenanceDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `SBBYBH${String(id || 1).padStart(7, '0')}`,
+		deviceName: '切割机',
+		maintainer: '孙磊',
+		maintenanceTime: '2025.04.24 14:00:00',
+		content: '设备履带保养',
+		images: ['/static/logo.png'],
+		remark: '无',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function createMaintenance(data) {
+	// 模拟创建保养记录
+	const result = {
+		id: Date.now(),
+		...data,
+	}
+	return withDelay({ code: 0, data: result, message: '创建成功' }, 800)
+}
+
+export function getMaintenanceDevices() {
+	const data = [
+		{ id: 1, name: '螺杆式空压机' },
+		{ id: 2, name: '活塞式空压机' },
+		{ id: 3, name: '离心式空压机' },
+		{ id: 4, name: '空气干燥机' },
+		{ id: 5, name: '精密过滤器' },
+		{ id: 6, name: '储气罐' },
+		{ id: 7, name: '螺杆式冷水机' },
+		{ id: 8, name: '风冷式冷水机' },
+		{ id: 9, name: '水冷式冷水机' },
+		{ id: 10, name: '工业冷却塔' },
+		{ id: 11, name: '离心风机' },
+		{ id: 12, name: '轴流风机' },
+		{ id: 13, name: '罗茨风机' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getMaintainers() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+		{ id: 11, name: '吴桐' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 巡检点检相关 API
+export function getInspectionList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `SBXDJBH${String(id).padStart(7, '0')}`,
+			deviceName: ['切割机', '焊接机', '打磨机', '喷涂机', '冲压机'][i % 5],
+			operator: ['孙磊', '李伟', '陈曦', '王梓涵'][i % 4],
+			inspectionTime: '2025.04.24 14:00:00',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+
+export function getInspectionDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `SBXDJBH${String(id || 1).padStart(7, '0')}`,
+		deviceName: '切割机',
+		operator: '孙磊',
+		inspectionTime: '2025.04.24 14:00:00',
+		content: '设备电机巡检点检',
+		images: ['/static/logo.png'],
+		remark: '无',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function createInspection(data) {
+	// 模拟创建巡检点检记录
+	const result = {
+		id: Date.now(),
+		...data,
+	}
+	return withDelay({ code: 0, data: result, message: '创建成功' }, 800)
+}
+
+export function getInspectionDevices() {
+	const data = [
+		{ id: 1, name: '螺杆式空压机' },
+		{ id: 2, name: '活塞式空压机' },
+		{ id: 3, name: '离心式空压机' },
+		{ id: 4, name: '空气干燥机' },
+		{ id: 5, name: '精密过滤器' },
+		{ id: 6, name: '储气罐' },
+		{ id: 7, name: '螺杆式冷水机' },
+		{ id: 8, name: '风冷式冷水机' },
+		{ id: 9, name: '水冷式冷水机' },
+		{ id: 10, name: '工业冷却塔' },
+		{ id: 11, name: '离心风机' },
+		{ id: 12, name: '轴流风机' },
+		{ id: 13, name: '罗茨风机' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getInspectionOperators() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+		{ id: 11, name: '吴桐' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 备品备件相关 API
+export function getSparePartsList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `BPBJBH${String(id).padStart(7, '0')}`,
+			name: ['轴承', '齿轮', '皮带', '链条', '密封圈'][i % 5],
+			model: ['GGXH00001', 'GGXH00002', 'GGXH00003', 'GGXH00004', 'GGXH00005'][i % 5],
+			usageDays: [30, 60, 90, 120, 180][i % 5],
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+
+export function getSparePartDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `BPBJBH${String(id || 1).padStart(7, '0')}`,
+		name: '轴承',
+		model: 'GGXH00001',
+		usageDays: '30',
+		unit: '个',
+		period: '30天',
+		manufacturer: '比亚华设备生产有限公司',
+		images: ['/static/logo.png'],
+		usageNotes: '定期检查，保持清洁',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function createSparePart(data) {
+	// 模拟创建备品备件记录
+	const result = {
+		id: Date.now(),
+		...data,
+	}
+	return withDelay({ code: 0, data: result, message: '创建成功' }, 800)
+}
+
+export function getUnits() {
+	const data = [
+		{ id: 1, name: '台' },
+		{ id: 2, name: '个' },
+		{ id: 3, name: '只' },
+		{ id: 4, name: '条' },
+		{ id: 5, name: '吨' },
+		{ id: 6, name: '千克' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getSparePartsManufacturers() {
+	const data = [
+		{ id: 1, name: '比亚华设备生产有限公司' },
+		{ id: 2, name: '华某产业股份有限公司' },
+		{ id: 3, name: '启航智联科技有限公司' },
+		{ id: 4, name: '悦动新能源发展公司' },
+		{ id: 5, name: '星瀚文化传媒工作室' },
+		{ id: 6, name: '安瑞医药研发有限公司' },
+		{ id: 7, name: '途顺物流运输集团' },
+		{ id: 8, name: '创美家居设计公司' },
+		{ id: 9, name: '恒信金融服务有限公司' },
+		{ id: 10, name: '绿源生态农业发展公司' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 采购入库相关 API
+export function getPurchaseInboundList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	for (let i = 0; i < pageSize; i++) {
+		const id = (page - 1) * pageSize + i + 1
+		if (id > total) break
+		items.push({
+			id,
+			code: `RKBH${String(id).padStart(6, '0')}`,
+			name: `产品原料入库${String(id).padStart(3, '0')}`,
+			materialName: ['内存条', 'PCB 电路板', '贴片电阻', '贴片电容', '芯片（MCU / 处理器）'][i % 5],
+			inboundTime: '2025.04.24 14:00:00',
+		})
+	}
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 350)
+}
+
+export function getPurchaseInboundDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `RKBH${String(id || 1).padStart(6, '0')}`,
+		name: '产品原料入库001',
+		materialName: '内存条',
+		specification: '16G',
+		unit: '个',
+		quantity: '1000',
+		batchNo: 'PCH00001',
+		warehouse: '一仓库',
+		warehouseArea: '第一库区',
+		warehouseLocation: 'AAAA库位',
+		inboundTime: '2025.04.24 14:00:00',
+		supplierName: '名博原料有限公司',
+		inboundPerson: '李红',
+		remark: '无',
+	}
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function createPurchaseInbound(data) {
+	// 模拟创建采购入库记录
+	const result = {
+		id: Date.now(),
+		...data,
+	}
+	return withDelay({ code: 0, data: result, message: '创建成功' }, 800)
+}
+
+export function getSuppliers() {
+	const data = [
+		{ id: 1, name: '深圳华强芯城科技有限公司' },
+		{ id: 2, name: '东莞联创电子材料有限公司' },
+		{ id: 3, name: '苏州晶方半导体科技有限公司' },
+		{ id: 4, name: '上海韦尔半导体股份有限公司' },
+		{ id: 5, name: '广州长盈精密技术有限公司' },
+		{ id: 6, name: '惠州德赛电池有限公司' },
+		{ id: 7, name: '宁波舜宇光电信息有限公司' },
+		{ id: 8, name: '深圳欧菲光科技有限公司' },
+		{ id: 9, name: '昆山国显光电有限公司' },
+		{ id: 10, name: '京东方科技集团股份有限公司' },
+		{ id: 11, name: '深圳欣旺达电子股份有限公司' },
+		{ id: 12, name: '珠海冠宇电池股份有限公司' },
+		{ id: 13, name: '深圳顺络电子股份有限公司' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getMaterials() {
+	const data = [
+		{ id: 1, code: 'CPHB00001', name: 'PCB 电路板' },
+		{ id: 2, code: 'CPHB00002', name: '贴片电阻' },
+		{ id: 3, code: 'CPHB00003', name: '贴片电容' },
+		{ id: 4, code: 'CPHB00004', name: '贴片电感' },
+		{ id: 5, code: 'CPHB00005', name: '芯片（MCU / 处理器）' },
+		{ id: 6, code: 'CPHB00006', name: '晶振' },
+		{ id: 7, code: 'CPHB00007', name: '二极管' },
+		{ id: 8, code: 'CPHB00008', name: '三极管' },
+		{ id: 9, code: 'CPHB00009', name: '场效应管（MOS 管）' },
+		{ id: 10, code: 'CPHB00010', name: '连接器（USB/HDMI/ 排针）' },
+		{ id: 11, code: 'CPHB00011', name: '锂电池电芯' },
+		{ id: 12, code: 'CPHB00012', name: '电池保护板' },
+		{ id: 13, code: 'CPHB00013', name: '充电芯片' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getInboundUnits() {
+	const data = [
+		{ id: 1, name: '台' },
+		{ id: 2, name: '箱' },
+		{ id: 3, name: '吨' },
+		{ id: 4, name: '个' },
+		{ id: 5, name: '升' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getWarehouseLocations() {
+	const data = [
+		{ id: 1, name: 'AAAA库位' },
+		{ id: 2, name: 'BBBB库位' },
+		{ id: 3, name: 'CCCC库位' },
+		{ id: 4, name: 'DDDD库位' },
+		{ id: 5, name: 'EEEE库位' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getWarehouseAreas() {
+	const data = [
+		{ id: 1, name: '第一库区' },
+		{ id: 2, name: '第二库区' },
+		{ id: 3, name: '第三库区' },
+		{ id: 4, name: '第四库区' },
+		{ id: 5, name: '第五库区' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getWarehouses() {
+	const data = [
+		{ id: 1, name: '仓库一' },
+		{ id: 2, name: '仓库二' },
+		{ id: 3, name: '仓库三' },
+		{ id: 4, name: '仓库四' },
+		{ id: 5, name: '仓库五' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getInboundPersons() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+		{ id: 11, name: '吴桐' },
+		{ id: 12, name: '马雨欣' },
+		{ id: 13, name: '朱星辰' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
