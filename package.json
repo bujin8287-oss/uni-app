@@ -1,5 +1,8 @@
 {
   "name": "uni-app-framework",
+  "extensions": {
+    "uni-cloud-verify": {}
+  },
   "version": "1.0.0",
   "description": "uni-app前后端分离项目基础框架",
   "main": "main.js",

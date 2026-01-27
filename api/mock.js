@@ -112,23 +112,24 @@ export function getFeatureDetail({ name = '功能页面', code } = {}) {
 	})
 }
 
-export function loginWithPassword({ username, password } = {}) {
-	// 简单模拟：任意非空用户名密码成功
-	if (!username || !password) {
-		return withDelay({ code: 1, message: '用户名或密码不能为空' }, 200)
-	}
-	return withDelay({ code: 0, data: { token: 'mock-token-password', user: { name: username } } }, 400)
-}
+// Simulate WeChat login: accept a temporary code and return a token + user info
+// (WeChat login mock removed)
 
-export function loginWithPhone({ phone } = {}) {
-	// 模拟一键登录：若手机号格式简单校验通过则成功
-	const phoneStr = String(phone || '')
-	const phoneOk = /^[0-9]{11}$/.test(phoneStr)
-	if (!phoneOk) {
-		return withDelay({ code: 1, message: '手机号格式不正确' }, 200)
+// Simulate mobile one-click login: accept phone and return token + user info
+export function mobileLogin({ phone, encryptedData, iv } = {}) {
+	// 如果传入了 encryptedData（小程序一键获取），模拟后端解密并返回固定手机号
+	if (encryptedData) {
+		const simulatedPhone = '13800138000'
+		const token = `mock-token-${simulatedPhone}`
+		const user = { id: 1001, name: '模拟用户', phone: simulatedPhone }
+		return withDelay({ code: 0, data: { token, user } }, 500)
 	}
-	// 返回用户信息和token
-	return withDelay({ code: 0, data: { token: 'mock-token-phone', user: { name: `用户${phoneStr.slice(-4)}` } } }, 500)
+	if (!/^1\d{10}$/.test(String(phone || '').trim())) {
+		return withDelay({ code: 1, message: '手机号不合法' }, 200)
+	}
+	const token = `mock-token-${phone}`
+	const user = { id: 1001, name: '模拟用户', phone }
+	return withDelay({ code: 0, data: { token, user } }, 500)
 }
 
 export function getSalesOrders({ page = 1, pageSize = 10 } = {}) {

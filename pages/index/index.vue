@@ -2,18 +2,25 @@
 	<view class="page">
 		<!-- Header -->
 		<view class="header">
-			<view class="header-left">
-				<image class="avatar" src="/static/logo.png" mode="aspectFill"></image>
-				<view class="user-info">
-					<text class="greet">你好，{{ userName }}</text>
-					<text class="sub">欢迎使用生产制造执行平台</text>
+			<!-- top row: avatar + greeting on left, actions on right -->
+			<view class="header-top">
+				<view class="header-left">
+					<image class="avatar" src="/static/logo.png" mode="aspectFill"></image>
+					<view class="user-info">
+						<text class="greet">你好，{{ userName }}</text>
+						<text class="sub">欢迎使用生产制造执行平台</text>
+					</view>
+				</view>
+				<view class="header-actions">
+					<view class="icon action">⛶</view>
+					<view class="icon notify">🔔</view>
 				</view>
 			</view>
-			<view class="header-right">
+			<!-- search row: full width below -->
+			<view class="search-row">
 				<view class="search-box">
 					<text class="search-placeholder">请输入需要查找的内容</text>
 				</view>
-				<view class="icon notify">🔔</view>
 			</view>
 		</view>
 
@@ -396,47 +403,63 @@ loadHomeShortcuts()
 /* Header */
 .header {
 	display: flex;
+	flex-direction: column;
+	gap: 14rpx;
+	margin-bottom: 20rpx;
+}
+.header-top {
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 20rpx;
+	width: 100%;
 }
 .header-left {
 	display: flex;
 	align-items: center;
+	gap: 18rpx;
 }
 .avatar {
-	width: 80rpx;
-	height: 80rpx;
-	border-radius: 40rpx;
-	margin-right: 20rpx;
+	width: 88rpx;
+	height: 88rpx;
+	border-radius: 44rpx;
 }
 .user-info .greet {
-	font-size: 30rpx;
-	color: #333;
-	font-weight: 600;
+	font-size: 32rpx;
+	color: #222;
+	font-weight: 700;
 }
 .user-info .sub {
-	font-size: 24rpx;
+	font-size: 22rpx;
 	color: #9b9b9b;
-	margin-top: 6rpx;
+	margin-top: 4rpx;
 }
-.header-right {
+.header-actions {
 	display: flex;
 	align-items: center;
-	gap: 20rpx;
+	gap: 14rpx;
+}
+.header-actions .icon {
+	font-size: 28rpx;
+	color: #555;
+}
+.header-actions .notify {
+	font-size: 30rpx;
+}
+.search-row {
+	width: 100%;
 }
 .search-box {
 	background: #fff;
-	padding: 18rpx 24rpx;
-	border-radius: 20rpx;
-	min-width: 440rpx;
+	padding: 18rpx 22rpx;
+	border-radius: 18rpx;
+	width: 100%;
+	box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.06);
+	display: flex;
+	align-items: center;
 }
 .search-placeholder {
-	color: #bdbbdc;
+	color: #d0cfe8;
 	font-size: 24rpx;
-}
-.icon.notify {
-	font-size: 32rpx;
 }
 
 /* Tabs */
