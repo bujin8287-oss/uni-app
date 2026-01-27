@@ -1,214 +1,182 @@
 <template>
-    <view class="login-page">
-        <view class="login-header">
-            <text class="title">登录</text>
-        </view>
+	<view class="login-page">
+		<view class="logo">
+			<img src="/static/logo.png" mode="widthFix" />
+		</view>
+		<view class="form">
+			<input v-model="phone" type="number" placeholder="请输入手机号" class="phone-input" />
+			<button :disabled="loading" @click="oneClickLogin" class="login-btn">
+				{{ loading ? '登录中...' : '一键登录' }}
+			</button>
 
-        <view class="hero">
-            <image src="/static/logo.png" class="hero-icon" mode="aspectFill" />
-            <text class="app-name">生产制造执行平台</text>
-            <text class="app-sub">Manufacturing Execution Platform</text>
-        </view>
-
-        <view class="form">
-            <view class="input-row">
-                <text class="input-icon">👤</text>
-                <input class="input" type="text" placeholder="请输入用户名/手机号" v-model="phoneOrUser" />
-            </view>
-            <view class="input-row">
-                <text class="input-icon">🔒</text>
-                <input class="input" type="password" placeholder="请输入密码" v-model="password" />
-            </view>
-
-            <button class="login-btn" :disabled="loading" @click="loginPassword">{{ loading ? '登录中...' : '登录'
-                }}</button>
-
-            <view class="or-row">
-                <view class="line"></view>
-                <text class="or-text">或</text>
-                <view class="line"></view>
-            </view>
-
-            <button class="phone-btn" :disabled="loading" @click="loginPhone">{{ loading ? '登录中...' : '手机号一键登录'
-                }}</button>
-        </view>
-
-        <image src="/static/images/login-bg.jpg" class="bg" mode="widthFix" />
-    </view>
+		</view>
+	</view>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
 import api from '@/api'
-
-const phoneOrUser = ref('')
-const password = ref('')
-const loading = ref(false)
-
-async function loginPassword() {
-    loading.value = true
-    try {
-        const res = await api.loginWithPassword({ username: phoneOrUser.value, password: password.value })
-        if (res && res.code === 0) {
-            uni.showToast({ title: '登录成功', icon: 'none' })
-            // 存储 token（示例）
-            uni.setStorageSync('token', res.data.token)
-            uni.reLaunch({ url: '/pages/index/index' })
-        } else {
-            uni.showToast({ title: res.message || '登录失败', icon: 'none' })
-        }
-    } catch (e) {
-        uni.showToast({ title: '网络错误', icon: 'none' })
-    } finally {
-        loading.value = false
-    }
+export default {
+	data() {
+		return {
+			phone: '',
+			loading: false
+		}
+	},
+	methods: {
+		oneClickLogin() {
+			this.loading = true
+			api.mobileLogin({ phone: this.phone }).then(res => {
+				this.loading = false
+				uni.reLaunch({ url: '/pages/index/index' })
+				}).catch(err => {
+					this.loading = false
+					uni.showToast({
+						title: err.message,
+						icon: 'none'
+					})
+				})
+		}
+	}
 }
 
-async function loginPhone() {
-    if (!phoneOrUser.value) {
-        uni.showToast({ title: '请输入手机号', icon: 'none' })
-        return
-    }
-    loading.value = true
-    try {
-        const res = await api.loginWithPhone({ phone: phoneOrUser.value })
-        if (res && res.code === 0) {
-            uni.showToast({ title: '登录成功', icon: 'none' })
-            uni.setStorageSync('token', res.data.token)
-            uni.reLaunch({ url: '/pages/index/index' })
-        } else {
-            uni.showToast({ title: res.message || '登录失败', icon: 'none' })
-        }
-    } catch (e) {
-        uni.showToast({ title: '网络错误', icon: 'none' })
-    } finally {
-        loading.value = false
-    }
-}
+uni.login({
+	provider: 'univerify',
+	univerifyStyle: { // 自定义登录框样式
+
+		"fullScreen": false, // 是否全屏显示，默认值： false
+		"backgroundColor": "#ffffff", // 授权页面背景颜色，默认值：#ffffff
+		"backgroundImage": "", // 全屏显示的背景图片，默认值："" （仅支持本地图片，只有全屏显示时支持）
+		"icon": {
+			"path": "static/xxx.png", // 自定义显示在授权框中的logo，仅支持本地图片 默认显示App logo
+			"width": "60px", //图标宽度 默认值：60px
+			"height": "60px" //图标高度 默认值：60px
+		},
+		"closeIcon": {
+			"path": "static/xxx.png", // 自定义显示在授权框中的logo，仅支持本地图片
+			"width": "60px", //图标宽度 默认值：60px (HBuilderX 4.0+ 仅iOS支持)
+			"height": "60px" //图标高度 默认值：60px (HBuilderX 4.0+ 仅iOS支持)
+		},
+		"phoneNum": {
+			"color": "#202020" // 手机号文字颜色 默认值：#202020
+		},
+		"slogan": {
+			"color": "#BBBBBB" // slogan 字体颜色 默认值：#BBBBBB
+		},
+		"authButton": {
+			"normalColor": "#3479f5", // 授权按钮正常状态背景颜色 默认值：#3479f5
+			"highlightColor": "#2861c5", // 授权按钮按下状态背景颜色 默认值：#2861c5（仅ios支持）
+			"disabledColor": "#73aaf5", // 授权按钮不可点击时背景颜色 默认值：#73aaf5（仅ios支持）
+			"textColor": "#ffffff", // 授权按钮文字颜色 默认值：#ffffff
+			"title": "本机号码一键登录", // 授权按钮文案 默认值：“本机号码一键登录”
+			"borderRadius": "24px" // 授权按钮圆角 默认值："24px" （按钮高度的一半）
+		},
+		"otherLoginButton": {
+			"visible": true, // 是否显示其他登录按钮，默认值：true
+			"normalColor": "", // 其他登录按钮正常状态背景颜色 默认值：透明
+			"highlightColor": "", // 其他登录按钮按下状态背景颜色 默认值：透明
+			"textColor": "#656565", // 其他登录按钮文字颜色 默认值：#656565
+			"title": "其他登录方式", // 其他登录方式按钮文字 默认值：“其他登录方式”
+			"borderColor": "", //边框颜色 默认值：透明（仅iOS支持）
+			"borderRadius": "0px" // 其他登录按钮圆角 默认值："24px" （按钮高度的一半）
+		},
+		"privacyTerms": {
+			"defaultCheckBoxState": true, // 条款勾选框初始状态 默认值： true
+			"isCenterHint": false, //未勾选服务条款时点击登录按钮的提示是否居中显示 默认值: false (3.7.13+ 版本支持)
+			"uncheckedImage": "", // 可选 条款勾选框未选中状态图片（仅支持本地图片 建议尺寸 24x24px）(3.2.0+ 版本支持)
+			"checkedImage": "", // 可选 条款勾选框选中状态图片（仅支持本地图片 建议尺寸24x24px）(3.2.0+ 版本支持)
+			"checkBoxSize": 12, // 可选 条款勾选框大小
+			"textColor": "#BBBBBB", // 文字颜色 默认值：#BBBBBB
+			"termsColor": "#5496E3", // 协议文字颜色 默认值： #5496E3
+			"prefix": "我已阅读并同意", // 条款前的文案 默认值：“我已阅读并同意”
+			"suffix": "并使用本机号码登录", // 条款后的文案 默认值：“并使用本机号码登录”
+			"privacyItems": [ // 自定义协议条款，最大支持2个，需要同时设置url和title. 否则不生效
+				{
+					"url": "https://", // 点击跳转的协议详情页面
+					"title": "用户服务协议" // 协议名称
+				}
+			]
+		},
+		"buttons": { // 自定义页面下方按钮仅全屏模式生效（3.1.14+ 版本支持）
+			"iconWidth": "45px", // 图标宽度（高度等比例缩放） 默认值：45px
+			"list": [
+				{
+					"provider": "apple",
+					"iconPath": "/static/apple.png" // 图标路径仅支持本地图片
+				},
+				{
+					"provider": "weixin",
+					"iconPath": "/static/wechat.png" // 图标路径仅支持本地图片
+				}
+			]
+		}
+
+
+	},
+	success(res) { // 登录成功
+		console.log(res.authResult); // {openid:'登录授权唯一标识',access_token:'接口返回的 token'}
+		if (uni.closeAuthView) {
+			uni.closeAuthView()
+		}
+		uni.reLaunch({ url: '/pages/index/index' })
+	},
+	fail(res) { // 登录失败
+		uni.showToast({
+			title: res.errMsg,
+			icon: 'none'
+		})
+	}
+})
 </script>
 
 <style scoped>
 .login-page {
-    min-height: 100vh;
-    background: linear-gradient(180deg, #f7f4ff, #f0eefb);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	padding-top: 80px;
+	background: #f8f8f8;
+	height: 100vh;
 }
 
-.login-header {
-    padding-top: 24rpx;
-}
-
-.title {
-    font-size: 28rpx;
-    font-weight: 700;
-    color: #333;
-}
-
-.hero {
-    margin-top: 20rpx;
-    align-items: center;
-}
-
-.hero-icon {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 60rpx;
-}
-
-.app-name {
-    color: #6b5bff;
-    font-size: 26rpx;
-    margin-top: 12rpx;
-}
-
-.app-sub {
-    color: #bdbbdc;
-    font-size: 18rpx;
-    margin-top: 6rpx;
+.logo img {
+	width: 120px;
+	height: 120px;
+	border-radius: 8px;
+	margin-bottom: 30px;
 }
 
 .form {
-    width: 86%;
-    margin-top: 22rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14rpx;
+	width: 88%;
 }
 
-.input-row {
-    width: 100%;
-    background: #fff;
-    border-radius: 12rpx;
-    padding: 12rpx;
-    display: flex;
-    align-items: center;
-    gap: 10rpx;
-    box-shadow: 0 8rpx 20rpx rgba(107, 84, 255, 0.06);
-}
-
-.input-icon {
-    font-size: 22rpx;
-    color: #bdbbdc;
-    width: 28rpx;
-    text-align: center;
-}
-
-.input {
-    flex: 1;
-    font-size: 24rpx;
-    border: none;
-    outline: none;
-    background: transparent;
-    height: 36rpx;
+.phone-input {
+	width: 100%;
+	height: 44px;
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 1px solid #e6e6e6;
+	margin-bottom: 16px;
+	background: #fff;
 }
 
 .login-btn {
-    width: 100%;
-    background: linear-gradient(180deg, #6a5bff, #8b6cff);
-    color: #fff;
-    padding: 14rpx;
-    border-radius: 28rpx;
-    font-size: 22rpx;
-    margin-top: 6rpx;
+	width: 100%;
+	height: 44px;
+	background: #007aff;
+	color: #fff;
+	border-radius: 6px;
+	text-align: center;
+	line-height: 44px;
+	font-size: 16px;
 }
 
-.phone-btn {
-    width: 100%;
-    background: #fff;
-    color: #6a5bff;
-    padding: 12rpx;
-    border-radius: 28rpx;
-    font-size: 20rpx;
-    border: 1rpx solid rgba(107, 84, 255, 0.12);
+.auto-btn {
+	margin-top: 8px;
+	background: #00c853;
 }
 
-.or-row {
-    display: flex;
-    align-items: center;
-    gap: 10rpx;
-    width: 100%;
-}
-
-.or-row .line {
-    flex: 1;
-    height: 1rpx;
-    background: #f1f1f6;
-}
-
-.or-text {
-    padding: 0 8rpx;
-    color: #9b9b9b;
-}
-
-.bg {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 180rpx;
-    opacity: 0.9;
+.login-btn[disabled] {
+	opacity: 0.6;
 }
 </style>
