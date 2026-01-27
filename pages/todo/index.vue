@@ -18,19 +18,28 @@
 
 		<!-- 待办列表 -->
 		<scroll-view class="list" scroll-y>
-			<view class="todo-card" v-for="item in filtered" :key="item.id">
-				<view class="card-header">
+			<view class="todo-card" v-for="item in filtered" :key="item.id" @click="openDetail(item)">
+				<view class="card-top">
 					<view class="tag">{{ item.tag }}</view>
 					<text class="todo-title">{{ item.title }}</text>
 					<view class="more">›</view>
 				</view>
-				<view class="card-body">
-					<view class="line"><text class="label">发起人：</text><text class="value">{{ item.initiator }}</text></view>
-					<view class="line"><text class="label">任务节点：</text><text class="value">{{ item.node }}</text></view>
-					<view class="line"><text class="label">发起时间：</text><text class="value">{{ item.time }}</text></view>
-				</view>
-				<view class="card-action">
-					<button class="action-btn" @click.stop="handle(item)">{{ item.statusText }}</button>
+				<view class="card-info">
+					<view class="info-item">
+						<text class="info-label">发起人：</text>
+						<text class="info-value">{{ item.initiator }}</text>
+					</view>
+					<view class="info-item">
+						<text class="info-label">任务节点：</text>
+						<text class="info-value">{{ item.node }}</text>
+					</view>
+					<view class="info-item">
+						<text class="info-label">发起时间：</text>
+						<text class="info-value">{{ item.time }}</text>
+					</view>
+					<view class="status-badge" :class="item.status">
+						<text class="status-text">{{ item.statusText }}</text>
+					</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -39,30 +48,49 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
+import { getApprovalTodoList } from '@/api/mock.js'
 import BottomNav from '@/components/business/BottomNav.vue'
 
 const query = ref('')
 const showFilter = ref(false)
-const currentStatus = ref('unhandled')
+const currentStatus = ref('pending')
+const loading = ref(false)
 
 const statuses = reactive([
-	{ label: '未处理', value: 'unhandled' },
+	{ label: '未处理', value: 'pending' },
 	{ label: '已办结', value: 'handled' },
-	{ label: '待我处理', value: 'mine' },
 ])
 
-const data = reactive([
-	{ id: 1, tag: '审批特办', title: '2025审批任务待办', initiator: '李民浩', node: '处理人', time: '2025-04-23 14:00:20', status: 'unhandled', statusText: '未处理' },
-	{ id: 2, tag: '审批特办', title: '2025审批任务待办', initiator: '李民浩', node: '处理人', time: '2025-04-23 14:00:20', status: 'unhandled', statusText: '未处理' },
-	{ id: 3, tag: '审批特办', title: '2025审批任务待办', initiator: '李民浩', node: '处理人', time: '2025-04-23 14:00:20', status: 'unhandled', statusText: '未处理' },
-	{ id: 4, tag: '审批特办', title: '2025审批任务待办', initiator: '李民浩', node: '处理人', time: '2025-04-23 14:00:20', status: 'handled', statusText: '已办结' },
-])
+const data = ref([])
 
 const statusLabel = computed(() => {
 	const s = statuses.find(s => s.value === currentStatus.value)
 	return s ? s.label : '未处理'
 })
+
+onMounted(() => {
+	loadTodoList()
+})
+
+async function loadTodoList() {
+	loading.value = true
+	try {
+		const res = await getApprovalTodoList({ 
+			page: 1, 
+			pageSize: 100, 
+			status: currentStatus.value 
+		})
+		if (res.code === 0) {
+			data.value = res.data.items
+		}
+	} catch (error) {
+		console.error('加载待办列表失败:', error)
+		uni.showToast({ title: '加载失败', icon: 'none' })
+	} finally {
+		loading.value = false
+	}
+}
 
 function toggleFilter() {
 	showFilter.value = !showFilter.value
@@ -71,24 +99,20 @@ function toggleFilter() {
 function setStatus(v) {
 	currentStatus.value = v
 	showFilter.value = false
+	loadTodoList()
 }
 
 const filtered = computed(() => {
-	return data.filter(d => {
-		const okStatus = currentStatus.value === 'all' ? true : (currentStatus.value === 'mine' ? d.initiator === '李民浩' : (currentStatus.value === d.status))
+	return data.value.filter(d => {
 		const okQuery = query.value ? (d.title.includes(query.value) || d.tag.includes(query.value) || d.node.includes(query.value)) : true
-		return okStatus && okQuery
+		return okQuery
 	})
 })
 
-function handle(item) {
-	if (item.status === 'unhandled') {
-		item.status = 'handled'
-		item.statusText = '已办结'
-		uni.showToast({ title: '已处理', icon: 'none' })
-	} else {
-		uni.showToast({ title: '已办结', icon: 'none' })
-	}
+function openDetail(item) {
+	uni.navigateTo({ 
+		url: `/pages/todo/detail?id=${item.id}` 
+	})
 }
 </script>
 
@@ -141,20 +165,84 @@ function handle(item) {
 .list { height: calc(100vh - 220rpx); }
 .todo-card {
 	background: #fff;
-	padding: 16rpx;
-	margin-bottom: 14rpx;
+	padding: 24rpx;
+	margin-bottom: 16rpx;
 	border-radius: 12rpx;
 	box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.04);
+	position: relative;
 }
-.card-header { display: flex; align-items: center; gap: 12rpx; }
-.tag { background: #f0f6ff; color: #5672ff; border-radius: 8rpx; padding: 6rpx 10rpx; font-size: 20rpx; border: 1rpx solid rgba(86,114,255,0.08); }
-.todo-title { font-size: 28rpx; font-weight: 700; margin-left: 6rpx; }
-.more { margin-left: auto; color: #cfcfe6; font-size: 28rpx; }
-.card-body { margin-top: 12rpx; }
-.line { display: flex; gap: 10rpx; align-items: center; margin-top: 6rpx; }
-.label { color: #9b9b9b; width: 90rpx; font-size: 22rpx; }
-.value { color: #333; font-size: 22rpx; }
-.card-action { display: flex; justify-content: flex-end; margin-top: 12rpx; }
-.action-btn { background: #fff; border: 1rpx solid #e3e3ee; color: #ff5a5a; padding: 6rpx 12rpx; border-radius: 8rpx; font-size: 22rpx; }
+.card-top { 
+	display: flex; 
+	align-items: center; 
+	gap: 12rpx;
+	margin-bottom: 20rpx;
+}
+.tag { 
+	background: #f0f6ff; 
+	color: #5672ff; 
+	border-radius: 8rpx; 
+	padding: 6rpx 12rpx; 
+	font-size: 22rpx; 
+	border: 1rpx solid rgba(86,114,255,0.08);
+	flex-shrink: 0;
+}
+.todo-title { 
+	font-size: 32rpx; 
+	font-weight: 700;
+	color: #333;
+	flex: 1;
+}
+.more { 
+	color: #cfcfe6; 
+	font-size: 32rpx;
+	flex-shrink: 0;
+}
+.card-info {
+	display: flex;
+	flex-direction: column;
+	gap: 12rpx;
+	position: relative;
+}
+.info-item { 
+	display: flex; 
+	align-items: center;
+}
+.info-label { 
+	color: #9b9b9b; 
+	font-size: 24rpx;
+	flex-shrink: 0;
+}
+.info-value { 
+	color: #333; 
+	font-size: 24rpx;
+	flex: 1;
+}
+.status-badge {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 8rpx 20rpx;
+	border-radius: 8rpx;
+	border: 2rpx solid #ff5a5a;
+	background: #fff;
+}
+.status-badge.handled {
+	border-color: #52c41a;
+}
+.status-text {
+	font-size: 24rpx;
+	color: #ff5a5a;
+}
+.status-badge.handled .status-text {
+	color: #52c41a;
+}
+.action-btn { 
+	background: #fff; 
+	border: 1rpx solid #e3e3ee; 
+	color: #ff5a5a; 
+	padding: 6rpx 12rpx; 
+	border-radius: 8rpx; 
+	font-size: 22rpx; 
+}
 </style>
 

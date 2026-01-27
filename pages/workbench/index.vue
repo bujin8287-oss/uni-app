@@ -161,6 +161,24 @@ function openFeature(item) {
 		return
 	}
 	
+	// 生产领料跳转到专门的页面
+	if (item.name === '生产领料') {
+		uni.navigateTo({ url: '/pages/workbench/warehouse/material-requisition/index' })
+		return
+	}
+	
+	// 生产退料跳转到专门的页面
+	if (item.name === '生产退料') {
+		uni.navigateTo({ url: '/pages/workbench/warehouse/material-return/index' })
+		return
+	}
+	
+	// 产品出库跳转到专门的页面
+	if (item.name === '产品出库') {
+		uni.navigateTo({ url: '/pages/workbench/warehouse/product-outbound/index' })
+		return
+	}
+	
 	// 其他功能跳转到通用功能页
 	// 来料检验跳转到质量管理 -> 来料检验列表
 	if (item.name === '来料检验') {
