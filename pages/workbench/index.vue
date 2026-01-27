@@ -137,6 +137,30 @@ function openFeature(item) {
 		return
 	}
 	
+	// 设备保养跳转到专门的页面
+	if (item.name === '设备保养') {
+		uni.navigateTo({ url: '/pages/workbench/device-maintenance/index' })
+		return
+	}
+	
+	// 巡检点检跳转到专门的页面
+	if (item.name === '巡检点检') {
+		uni.navigateTo({ url: '/pages/workbench/device-inspection/index' })
+		return
+	}
+	
+	// 备品备件跳转到专门的页面
+	if (item.name === '备品备件') {
+		uni.navigateTo({ url: '/pages/workbench/spare-parts/index' })
+		return
+	}
+	
+	// 采购入库跳转到专门的页面
+	if (item.name === '采购入库') {
+		uni.navigateTo({ url: '/pages/workbench/warehouse/purchase-inbound/index' })
+		return
+	}
+	
 	// 其他功能跳转到通用功能页
 	// 来料检验跳转到质量管理 -> 来料检验列表
 	if (item.name === '来料检验') {
