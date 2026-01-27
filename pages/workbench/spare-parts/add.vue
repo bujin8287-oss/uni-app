@@ -1,9 +1,17 @@
 <template>
 	<view class="add-page">
+		<view class="header">
+			<view class="back-btn" @click="goBack">
+				<text class="back-icon">‹</text>
+			</view>
+			<text class="header-title">新增备品备件</text>
+			<view class="header-right"></view>
+		</view>
+
 		<scroll-view class="form-scroll" scroll-y>
-			<!-- 设备信息 -->
+			<!-- 基本信息 -->
 			<view class="section">
-				<text class="section-title">设备信息</text>
+				<text class="section-title">基本信息</text>
 				<view class="form-card">
 					<view class="form-item" v-for="field in formFields" :key="field.key">
 						<text class="field-label">{{ field.label }}</text>
@@ -31,10 +39,10 @@
 				</view>
 			</view>
 
-			<!-- 设备图片 -->
+			<!-- 备品备件图片 -->
 			<view class="section">
 				<view class="section-header">
-					<text class="section-title">设备图片</text>
+					<text class="section-title">备品备件图片</text>
 					<text class="section-tip">可上传jpg、png、pdf等格式文件</text>
 				</view>
 				<view class="image-upload">
@@ -48,14 +56,14 @@
 				</view>
 			</view>
 
-			<!-- 备注 -->
+			<!-- 使用说明 -->
 			<view class="section">
-				<text class="section-title">备注</text>
+				<text class="section-title">使用说明</text>
 				<view class="form-card">
 					<textarea 
 						class="textarea-input"
-						placeholder="请输入备注信息"
-						v-model="formData.remark"
+						placeholder="请输入使用说明..."
+						v-model="formData.usageNotes"
 						:maxlength="200"
 					/>
 				</view>
@@ -73,64 +81,73 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { createSparePart } from '@/api/mock.js'
 
 const formData = reactive({
 	code: '',
 	name: '',
 	model: '',
-	serialNumber: '',
-	serviceLife: '',
-	startDate: '',
-	assetCode: '',
+	usageDays: '',
+	unit: '',
+	period: '',
 	manufacturer: '',
-	department: '',
-	remark: '',
+	usageNotes: '',
 })
 
 const images = ref([])
 
 onMounted(() => {
-	// 监听生产厂家选择返回
-	uni.$on('manufacturerSelected', (manufacturer) => {
-		formData.manufacturer = manufacturer
-	})
+	// 自动生成备品备件编号
+	generateCode()
 	
-	// 监听部门选择返回
-	uni.$on('departmentSelected', (department) => {
-		formData.department = department
-	})
+	// 监听单位选择返回
+	uni.$on('unitSelected', handleUnitSelected)
+	
+	// 监听生产厂家选择返回
+	uni.$on('sparePartsManufacturerSelected', handleManufacturerSelected)
 })
 
+onUnmounted(() => {
+	// 清理事件监听
+	uni.$off('unitSelected', handleUnitSelected)
+	uni.$off('sparePartsManufacturerSelected', handleManufacturerSelected)
+})
+
+function generateCode() {
+	// 生成备品备件编号：BPBJBH + 时间戳后7位
+	const timestamp = Date.now().toString()
+	formData.code = `BPBJBH${timestamp.slice(-7)}`
+}
+
+function handleUnitSelected(unit) {
+	formData.unit = unit
+}
+
+function handleManufacturerSelected(manufacturer) {
+	formData.manufacturer = manufacturer
+}
+
 const formFields = [
-	{ label: '设备编号', key: 'code', type: 'input', placeholder: '请输入设备编号' },
-	{ label: '设备名称', key: 'name', type: 'input', placeholder: '请输入设备名称' },
-	{ label: '规格型号', key: 'model', type: 'input', placeholder: '请输入规格型号' },
-	{ label: '出厂编号', key: 'serialNumber', type: 'input', placeholder: '请输入出厂编号' },
-	{ label: '使用年限', key: 'serviceLife', type: 'input', placeholder: '请输入使用年限' },
-	{ label: '开始时间', key: 'startDate', type: 'picker', placeholder: '请选择' },
-	{ label: '固定资产编号', key: 'assetCode', type: 'input', placeholder: '请输入固定资产编号' },
+	{ label: '备品备件编号', key: 'code', type: 'input', placeholder: '请输入编号' },
+	{ label: '备品备件名称', key: 'name', type: 'input', placeholder: '请输入名称' },
+	{ label: '型号', key: 'model', type: 'input', placeholder: '请输入型号' },
+	{ label: '使用天数', key: 'usageDays', type: 'input', placeholder: '请输入使用天数' },
+	{ label: '单位', key: 'unit', type: 'picker', placeholder: '请选择' },
+	{ label: '周期', key: 'period', type: 'input', placeholder: '请输入周期' },
 	{ label: '生产厂家', key: 'manufacturer', type: 'picker', placeholder: '请选择' },
-	{ label: '所属部门', key: 'department', type: 'picker', placeholder: '请选择' },
 ]
 
 function openPicker(key) {
-	if (key === 'startDate') {
-		// 日期选择
-		uni.showModal({
-			title: '提示',
-			content: '日期选择功能待实现',
-			showCancel: false
+	if (key === 'unit') {
+		// 跳转到单位选择页面
+		uni.navigateTo({ 
+			url: `/pages/workbench/spare-parts/unit-select?current=${encodeURIComponent(formData.unit || '')}` 
 		})
 	} else if (key === 'manufacturer') {
 		// 跳转到生产厂家选择页面
 		uni.navigateTo({ 
-			url: `/pages/workbench/archive/manufacturer-select?current=${encodeURIComponent(formData.manufacturer || '')}` 
-		})
-	} else if (key === 'department') {
-		// 跳转到部门选择页面
-		uni.navigateTo({ 
-			url: `/pages/workbench/archive/department-select?current=${encodeURIComponent(formData.department || '')}` 
+			url: `/pages/workbench/spare-parts/manufacturer-select?current=${encodeURIComponent(formData.manufacturer || '')}` 
 		})
 	}
 }
@@ -150,44 +167,103 @@ function deleteImage(index) {
 	images.value.splice(index, 1)
 }
 
-function handleSubmit() {
+async function handleSubmit() {
 	// 验证必填项
 	if (!formData.code) {
-		uni.showToast({ title: '请输入设备编号', icon: 'none' })
+		uni.showToast({ title: '请输入备品备件编号', icon: 'none' })
 		return
 	}
 	if (!formData.name) {
-		uni.showToast({ title: '请输入设备名称', icon: 'none' })
+		uni.showToast({ title: '请输入备品备件名称', icon: 'none' })
 		return
 	}
 
 	// 提交数据
 	uni.showLoading({ title: '提交中...' })
 	
-	setTimeout(() => {
-		uni.hideLoading()
-		uni.showToast({ 
-			title: '提交成功', 
-			icon: 'success',
-			duration: 1500
-		})
+	try {
+		const submitData = {
+			...formData,
+			images: images.value
+		}
 		
-		setTimeout(() => {
-			uni.navigateBack()
-		}, 1500)
-	}, 1000)
+		const res = await createSparePart(submitData)
+		
+		if (res.code === 0) {
+			uni.hideLoading()
+			uni.showToast({ 
+				title: '提交成功', 
+				icon: 'success',
+				duration: 1500
+			})
+			
+			setTimeout(() => {
+				uni.navigateBack()
+			}, 1500)
+		} else {
+			uni.hideLoading()
+			uni.showToast({
+				title: res.message || '提交失败',
+				icon: 'none'
+			})
+		}
+	} catch (error) {
+		uni.hideLoading()
+		uni.showToast({
+			title: '提交失败',
+			icon: 'none'
+		})
+	}
+}
+
+function goBack() {
+	uni.navigateBack()
 }
 </script>
 
-<style>
+<style scoped>
 .add-page {
 	background: #f7f6fb;
 	min-height: 100vh;
-	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	background: #fff;
+	padding: 20rpx;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1rpx solid #f0f0f0;
+}
+
+.back-btn {
+	width: 60rpx;
+	height: 60rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.back-icon {
+	font-size: 48rpx;
+	color: #333;
+	font-weight: 300;
+}
+
+.header-title {
+	font-size: 32rpx;
+	font-weight: 600;
+	color: #333;
+}
+
+.header-right {
+	width: 60rpx;
 }
 
 .form-scroll {
-	height: calc(100vh - 120rpx);
+	flex: 1;
 	padding: 20rpx;
 	box-sizing: border-box;
 }
@@ -237,7 +313,7 @@ function handleSubmit() {
 .field-label {
 	color: #333;
 	font-size: 28rpx;
-	width: 200rpx;
+	width: 160rpx;
 	flex-shrink: 0;
 }
 
@@ -347,10 +423,6 @@ function handleSubmit() {
 }
 
 .submit-bar {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
 	padding: 20rpx;
 	background: #fff;
 	box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);

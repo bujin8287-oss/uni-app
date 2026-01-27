@@ -205,6 +205,20 @@
 			}
 		},
 		{
+			"path": "pages/workbench/archive/manufacturer-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/archive/department-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
 			"path": "pages/workbench/device-scrap/index",
 			"style": {
 				"navigationStyle": "custom",
@@ -228,6 +242,20 @@
 			}
 		},
 		{
+			"path": "pages/workbench/device-scrap/device-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-scrap/applicant-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
 			"path": "pages/workbench/device-repair/index",
 			"style": {
 				"navigationBarTitleText": "设备维修",
@@ -244,35 +272,80 @@
 			}
 		},
 		{
-			"path": "pages/workbench/device-select/index",
+			"path": "pages/workbench/device-repair/handler-select",
 			"style": {
-				"navigationBarTitleText": "选择设备",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
-			"path": "pages/workbench/applicant-select/index",
+			"path": "pages/workbench/device-maintenance/index",
 			"style": {
-				"navigationBarTitleText": "申请人",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
-			"path": "pages/workbench/manufacturer-select/index",
+			"path": "pages/workbench/device-maintenance/add",
 			"style": {
-				"navigationBarTitleText": "客户选择",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
-			"path": "pages/workbench/department-select/index",
+			"path": "pages/workbench/device-maintenance/detail",
 			"style": {
-				"navigationBarTitleText": "责任部门",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-maintenance/device-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-maintenance/maintainer-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-inspection/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-inspection/add",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-inspection/detail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-inspection/device-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/device-inspection/operator-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -537,6 +610,111 @@
 				"navigationBarTitleText": "追溯详情",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/workbench/spare-parts/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/spare-parts/add",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/spare-parts/detail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/spare-parts/unit-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/spare-parts/manufacturer-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/add",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/detail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/supplier-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/material-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/unit-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/warehouse-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/warehouse-area-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/warehouse-location-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/workbench/warehouse/purchase-inbound/inbound-person-select",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		}
 	],
