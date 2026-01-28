@@ -17,6 +17,7 @@ export const api = {
 	getProductOrders: mock.getProductOrders,
 	getProductOrderDetail: mock.getProductOrderDetail,
 	mobileLogin: mock.mobileLogin,
+	accountLogin: mock.accountLogin,
 }
 
 export default api

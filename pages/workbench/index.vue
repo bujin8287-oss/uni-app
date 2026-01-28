@@ -27,7 +27,7 @@
 <script setup>
 import { reactive } from 'vue'
 import BottomNav from '@/components/business/BottomNav.vue'
-
+import { openFeature } from '../../components/business/featureNavigation'
 const sections = reactive([
 	{
 		key: 'plan',
@@ -82,109 +82,7 @@ const sections = reactive([
 	},
 ])
 
-function openFeature(item) {
-	if (!item || !item.name) return
-	// 销售订单跳转到专门的页面
-	if(item.name === '销售订单') {
-		uni.navigateTo({ url: '/pages/workbench/plan-management/sales-order/index' })
-		return
-	}
-	// 生产计划跳转到生产计划页面
-	if (item.name === '生产计划') {
-		uni.navigateTo({ url: '/pages/workbench/plan-management/product-plan/index' })
-		return
-	}
-	// 生产工单跳转到生产工单页面
-	if (item.name === '生产工单') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-order/index' })
-		return
-	}
-	// 生产报工跳转到生产报工页面
-	if (item.name === '生产报工') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-record-sub/index' })
-		return
-	}
-	// 生产达成跳转到生产达成页面
-	if (item.name === '生产达成') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-complete/index' })
-		return
-	}
-	// 生产准时跳转到生产准时页面
-	if (item.name === '生产准时') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-on-time/index' })
-		return
-	}
-	// 报工记录跳转到报工记录页面
-	if (item.name === '报工记录') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/work-record/index' })
-		return
-	}
-	// 设备档案跳转到专门的页面
-	if (item.name === '设备档案') {
-		uni.navigateTo({ url: '/pages/workbench/archive/index' })
-		return
-	}
-	
-	// 设备报废跳转到专门的页面
-	if (item.name === '设备报废') {
-		uni.navigateTo({ url: '/pages/workbench/device-scrap/index' })
-		return
-	}
-	
-	// 设备维修跳转到专门的页面
-	if (item.name === '设备维修') {
-		uni.navigateTo({ url: '/pages/workbench/device-repair/index' })
-		return
-	}
-	
-	// 设备保养跳转到专门的页面
-	if (item.name === '设备保养') {
-		uni.navigateTo({ url: '/pages/workbench/device-maintenance/index' })
-		return
-	}
-	
-	// 巡检点检跳转到专门的页面
-	if (item.name === '巡检点检') {
-		uni.navigateTo({ url: '/pages/workbench/device-inspection/index' })
-		return
-	}
-	
-	// 备品备件跳转到专门的页面
-	if (item.name === '备品备件') {
-		uni.navigateTo({ url: '/pages/workbench/spare-parts/index' })
-		return
-	}
-	
-	// 采购入库跳转到专门的页面
-	if (item.name === '采购入库') {
-		uni.navigateTo({ url: '/pages/workbench/warehouse/purchase-inbound/index' })
-		return
-	}
-	
-	// 其他功能跳转到通用功能页
-	// 来料检验跳转到质量管理 -> 来料检验列表
-	if (item.name === '来料检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/incoming-inspection/index' })
-		return
-	}
-	// 过程检验跳转到质量管理 -> 过程检验列表
-	if (item.name === '过程检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/process-inspection/index' })
-		return
-	}
-	// 追溯管理跳转到追溯管理页面
-	if (item.name === '追溯管理') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/trace-management/index' })
-		return
-	}
-	// 最终检验跳转到质量管理 -> 最终检验列表
-	if (item.name === '最终检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/final-inspection/index' })
-		return
-	}
-	const url = `/pages/feature/index?name=${encodeURIComponent(item.name)}`
-	uni.navigateTo({ url })
-}
+
 </script>
 
 <style>

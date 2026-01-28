@@ -5,15 +5,44 @@ function withDelay(result, ms = 300) {
 	})
 }
 
-export function getHomeStats() {
-	// 用于首页统计卡片
+export function getHomeStats({ timeRange = 'yesterday' } = {}) {
+	// 用于首页统计卡片，支持昨日/本周/本月
+	const dataMap = {
+		yesterday: {
+			production: 234,
+			reachRate: '95.3%',
+			passRate: '89.5%',
+			reworkCount: 23,
+			orders: 23,
+			outbound: 345,
+		},
+		week: {
+			production: 542,
+			reachRate: '92.4%',
+			passRate: '91.2%',
+			reworkCount: 103,
+			orders: 124,
+			outbound: 890,
+		},
+		month: {
+			production: 3408,
+			reachRate: '93.6%',
+			passRate: '91.7%',
+			reworkCount: 268,
+			orders: 869,
+			outbound: 2030,
+		},
+	}
+	
+	const selected = dataMap[timeRange] || dataMap.yesterday
 	const data = {
-		yesterdayProduction: 234,
-		reachRate: '95.3%',
-		passRate: '89.5%',
-		reworkCount: 23,
-		yesterdayOrders: 23,
-		yesterdayOutbound: 345,
+		production: selected.production,
+		reachRate: selected.reachRate,
+		passRate: selected.passRate,
+		reworkCount: selected.reworkCount,
+		orders: selected.orders,
+		outbound: selected.outbound,
+		timeRange, // 返回当前时间范围
 	}
 	return withDelay({ code: 0, data })
 }
@@ -129,6 +158,19 @@ export function mobileLogin({ phone, encryptedData, iv } = {}) {
 	}
 	const token = `mock-token-${phone}`
 	const user = { id: 1001, name: '模拟用户', phone }
+	return withDelay({ code: 0, data: { token, user } }, 500)
+}
+
+// 账号密码登录：简单校验后返回固定用户信息
+export function accountLogin({ username, password } = {}) {
+	const u = String(username || '').trim()
+	const p = String(password || '').trim()
+	if (!u || !p) {
+		return withDelay({ code: 1, message: '账号或密码不能为空' }, 200)
+	}
+	// 这里可以根据需要增加更多校验逻辑
+	const token = `mock-token-${u}`
+	const user = { id: 1001, name: '模拟用户', username: u }
 	return withDelay({ code: 0, data: { token, user } }, 500)
 }
 
