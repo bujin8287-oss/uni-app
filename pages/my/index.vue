@@ -78,9 +78,9 @@ const tasks = reactive([
 ])
 
 const menu = reactive([
-	{ title: '个人资料', icon: '👤', path: '/pages/feature/index?name=个人资料' },
-	{ title: '密码修改', icon: '🔒', path: '/pages/feature/index?name=密码修改' },
-	{ title: '关于我们', icon: '📖', path: '/pages/feature/index?name=关于我们' },
+	{ title: '个人资料', icon: '👤', path: '/pages/my/profile' },
+	{ title: '密码修改', icon: '🔒', path: '/pages/my/password' },
+	{ title: '关于我们', icon: '📖', path: '/pages/my/about' },
 ])
 
 function goTask(t) {

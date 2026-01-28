@@ -921,3 +921,618 @@ export function getInboundPersons() {
 	]
 	return withDelay({ code: 0, data }, 300)
 }
+
+// 生产领料相关 API
+export function getMaterialRequisitionList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	
+	for (let i = 0; i < Math.min(pageSize, total - (page - 1) * pageSize); i++) {
+		const index = (page - 1) * pageSize + i + 1
+		items.push({
+			id: index,
+			code: `LLBH${String(index).padStart(6, '0')}`,
+			name: `领料单${index}`,
+			workOrder: `GD${String(index).padStart(6, '0')}`,
+			requisitionDate: `2025.01.${String(10 + (index % 20)).padStart(2, '0')} ${String(8 + (index % 10)).padStart(2, '0')}:00:00`,
+		})
+	}
+	
+	return withDelay({ code: 0, data: { items, total } }, 500)
+}
+
+export function getMaterialRequisitionDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `LLBH${String(id || 1).padStart(6, '0')}`,
+		name: `领料单${id || 1}`,
+		workOrder: `GD${String(id || 1).padStart(6, '0')}`,
+		workshop: '第一车间',
+		process: '组装工序',
+		requisitionPerson: '李伟',
+		requisitionDate: '2025.01.15 09:00:00',
+		materialCode: 'CPHB00001',
+		materialName: 'PCB 电路板',
+		specification: 'FR-4 双面板',
+		unit: '台',
+		quantity: '100',
+		batchNo: 'PC20250115001',
+		warehouse: '仓库一',
+		warehouseArea: '第一库区',
+		warehouseLocation: 'AAAA库位',
+		remark: '生产急需，请尽快配送'
+	}
+	return withDelay({ code: 0, data }, 500)
+}
+
+export function createMaterialRequisition(data) {
+	console.log('创建领料单:', data)
+	return withDelay({ code: 0, message: '创建成功' }, 800)
+}
+
+export function getWorkOrders() {
+	const data = [
+		{ id: 1, name: 'GD000001' },
+		{ id: 2, name: 'GD000002' },
+		{ id: 3, name: 'GD000003' },
+		{ id: 4, name: 'GD000004' },
+		{ id: 5, name: 'GD000005' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getWorkshops() {
+	const data = [
+		{ id: 1, name: '第一车间' },
+		{ id: 2, name: '第二车间' },
+		{ id: 3, name: '第三车间' },
+		{ id: 4, name: '第四车间' },
+		{ id: 5, name: '第五车间' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getProcesses() {
+	const data = [
+		{ id: 1, name: '组装工序' },
+		{ id: 2, name: '焊接工序' },
+		{ id: 3, name: '测试工序' },
+		{ id: 4, name: '包装工序' },
+		{ id: 5, name: '质检工序' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getRequisitionPersons() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getMaterialsForRequisition() {
+	const data = [
+		{ id: 1, code: 'CPHB00001', name: 'PCB 电路板', specification: 'FR-4 双面板' },
+		{ id: 2, code: 'CPHB00002', name: '贴片电阻', specification: '0805 封装' },
+		{ id: 3, code: 'CPHB00003', name: '贴片电容', specification: '0603 封装' },
+		{ id: 4, code: 'CPHB00004', name: '贴片电感', specification: '1206 封装' },
+		{ id: 5, code: 'CPHB00005', name: '芯片（MCU / 处理器）', specification: 'STM32F103' },
+		{ id: 6, code: 'CPHB00006', name: '晶振', specification: '8MHz' },
+		{ id: 7, code: 'CPHB00007', name: '二极管', specification: '1N4148' },
+		{ id: 8, code: 'CPHB00008', name: '三极管', specification: '2N3904' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getRequisitionUnits() {
+	const data = [
+		{ id: 1, name: '台' },
+		{ id: 2, name: '个' },
+		{ id: 3, name: '只' },
+		{ id: 4, name: '条' },
+		{ id: 5, name: '吨' },
+		{ id: 6, name: '千克' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 生产退料相关 API
+export function getMaterialReturnList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	
+	for (let i = 0; i < Math.min(pageSize, total - (page - 1) * pageSize); i++) {
+		const index = (page - 1) * pageSize + i + 1
+		items.push({
+			id: index,
+			code: `SCTLBH${String(index).padStart(10, '0')}`,
+			materialName: ['内存条', 'PCB 电路板', '贴片电阻', '贴片电容', '芯片'][i % 5],
+			quantity: [12, 20, 15, 30, 25][i % 5],
+			returnDate: `2025.02.${String(10 + (index % 20)).padStart(2, '0')}`,
+		})
+	}
+	
+	return withDelay({ code: 0, data: { items, total } }, 500)
+}
+
+export function getMaterialReturnDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `TLBH${String(id || 1).padStart(6, '0')}`,
+		name: `产品原料退料${String(id || 1).padStart(3, '0')}`,
+		workOrder: `SCGD${String(id || 1).padStart(8, '0')}`,
+		workshop: '第三生产车间',
+		process: '第十一道工序',
+		returnPerson: '李超',
+		returnDate: '2025.04.24',
+		materialCode: `WLBH${String(id || 1).padStart(5, '0')}`,
+		materialName: '内存条',
+		specification: '16G',
+		unit: '个',
+		quantity: '12',
+		batchNo: `PCH${String(id || 1).padStart(6, '0')}`,
+		warehouse: '仓库一',
+		warehouseArea: '第一库区',
+		warehouseLocation: 'AAAA库位',
+		remark: '无'
+	}
+	return withDelay({ code: 0, data }, 500)
+}
+
+export function createMaterialReturn(data) {
+	console.log('创建退料单:', data)
+	return withDelay({ code: 0, message: '创建成功' }, 800)
+}
+
+export function getReturnPersons() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getMaterialsForReturn() {
+	const data = [
+		{ id: 1, code: 'CPHB00001', name: 'PCB 电路板', specification: 'FR-4 双面板' },
+		{ id: 2, code: 'CPHB00002', name: '贴片电阻', specification: '0805 封装' },
+		{ id: 3, code: 'CPHB00003', name: '贴片电容', specification: '0603 封装' },
+		{ id: 4, code: 'CPHB00004', name: '贴片电感', specification: '1206 封装' },
+		{ id: 5, code: 'CPHB00005', name: '芯片（MCU / 处理器）', specification: 'STM32F103' },
+		{ id: 6, code: 'CPHB00006', name: '晶振', specification: '8MHz' },
+		{ id: 7, code: 'CPHB00007', name: '二极管', specification: '1N4148' },
+		{ id: 8, code: 'CPHB00008', name: '三极管', specification: '2N3904' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getReturnUnits() {
+	const data = [
+		{ id: 1, name: '台' },
+		{ id: 2, name: '个' },
+		{ id: 3, name: '只' },
+		{ id: 4, name: '条' },
+		{ id: 5, name: '吨' },
+		{ id: 6, name: '千克' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 产品出库相关 API
+export function getProductOutboundList({ page = 1, pageSize = 10 } = {}) {
+	const total = 25
+	const items = []
+	
+	for (let i = 0; i < Math.min(pageSize, total - (page - 1) * pageSize); i++) {
+		const index = (page - 1) * pageSize + i + 1
+		items.push({
+			id: index,
+			code: `CKBH${String(index).padStart(6, '0')}`,
+			materialName: ['内存条', 'PCB 电路板', '贴片电阻', '贴片电容', '芯片'][i % 5],
+			quantity: [100, 200, 150, 300, 250][i % 5],
+			outboundDate: `2025.03.${String(10 + (index % 20)).padStart(2, '0')}`,
+		})
+	}
+	
+	return withDelay({ code: 0, data: { items, total } }, 500)
+}
+
+export function getProductOutboundDetail({ id } = {}) {
+	const data = {
+		id: id || 1,
+		code: `CKBH${String(id || 1).padStart(6, '0')}`,
+		name: `产品出库${String(id || 1).padStart(3, '0')}`,
+		warehouse: '仓库一',
+		warehouseArea: '第一库区',
+		warehouseLocation: 'AAAA库位',
+		outboundTime: '2025.03.15 10:00:00',
+		customerName: '启航智联科技有限公司',
+		outboundPerson: '李伟',
+		materialName: 'PCB 电路板',
+		specification: 'FR-4 双面板',
+		unit: '台',
+		quantity: '100',
+		batchNo: 'PC20250315001',
+		remark: '客户急需，请尽快发货'
+	}
+	return withDelay({ code: 0, data }, 500)
+}
+
+export function createProductOutbound(data) {
+	console.log('创建出库单:', data)
+	return withDelay({ code: 0, message: '创建成功' }, 800)
+}
+
+export function getOutboundCustomers() {
+	const data = [
+		{ id: 1, name: '启航智联科技有限公司' },
+		{ id: 2, name: '悦动新能源发展公司' },
+		{ id: 3, name: '星瀚文化传媒工作室' },
+		{ id: 4, name: '安瑞医药研发有限公司' },
+		{ id: 5, name: '途顺物流运输集团' },
+		{ id: 6, name: '创美家居设计公司' },
+		{ id: 7, name: '恒信金融服务有限公司' },
+		{ id: 8, name: '绿源生态农业发展公司' },
+		{ id: 9, name: '锐科电子科技有限公司' },
+		{ id: 10, name: '品尚餐饮管理集团' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getOutboundPersons() {
+	const data = [
+		{ id: 1, name: '李伟' },
+		{ id: 2, name: '陈曦' },
+		{ id: 3, name: '王梓涵' },
+		{ id: 4, name: '赵雨桐' },
+		{ id: 5, name: '刘畅' },
+		{ id: 6, name: '张梦琪' },
+		{ id: 7, name: '陈明宇' },
+		{ id: 8, name: '杨悦' },
+		{ id: 9, name: '黄思睿' },
+		{ id: 10, name: '周浩然' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getMaterialsForOutbound() {
+	const data = [
+		{ id: 1, code: 'CPHB00001', name: 'PCB 电路板', specification: 'FR-4 双面板' },
+		{ id: 2, code: 'CPHB00002', name: '贴片电阻', specification: '0805 封装' },
+		{ id: 3, code: 'CPHB00003', name: '贴片电容', specification: '0603 封装' },
+		{ id: 4, code: 'CPHB00004', name: '贴片电感', specification: '1206 封装' },
+		{ id: 5, code: 'CPHB00005', name: '芯片（MCU / 处理器）', specification: 'STM32F103' },
+		{ id: 6, code: 'CPHB00006', name: '晶振', specification: '8MHz' },
+		{ id: 7, code: 'CPHB00007', name: '二极管', specification: '1N4148' },
+		{ id: 8, code: 'CPHB00008', name: '三极管', specification: '2N3904' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+export function getOutboundUnits() {
+	const data = [
+		{ id: 1, name: '台' },
+		{ id: 2, name: '个' },
+		{ id: 3, name: '只' },
+		{ id: 4, name: '条' },
+		{ id: 5, name: '吨' },
+		{ id: 6, name: '千克' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 审批流程相关 API
+
+// 审批流程数据库（模拟真实审批流）
+const approvalWorkflows = [
+	{
+		id: 1,
+		code: 'RWBH00001',
+		title: '2025审批任务待办',
+		type: '审批待办',
+		tag: '审批特办',
+		initiator: '李民浩',
+		initiatorId: 'user001',
+		createTime: '2025.04.24 14:00:00',
+		deadline: '2025.04.26 18:00:00',
+		binding: '工艺流转卡',
+		status: 'pending', // pending: 审批中, approved: 已通过, rejected: 已驳回, completed: 已完成
+		currentNode: 1, // 当前审批节点
+		nodes: [
+			{
+				nodeId: 1,
+				nodeName: '部门主管审批',
+				approver: '张三',
+				approverId: 'user002',
+				status: 'pending', // pending: 待审批, approved: 已通过, rejected: 已驳回
+				approveTime: null,
+				comment: null
+			},
+			{
+				nodeId: 2,
+				nodeName: '财务审批',
+				approver: null, // 需要上一节点指定
+				approverId: null,
+				status: 'waiting', // waiting: 等待中
+				approveTime: null,
+				comment: null
+			},
+			{
+				nodeId: 3,
+				nodeName: '总经理审批',
+				approver: '王总',
+				approverId: 'user010',
+				status: 'waiting',
+				approveTime: null,
+				comment: null
+			}
+		],
+		history: []
+	},
+	{
+		id: 2,
+		code: 'RWBH00002',
+		title: '采购申请审批',
+		type: '采购审批',
+		tag: '采购申请',
+		initiator: '王小明',
+		initiatorId: 'user003',
+		createTime: '2025.04.23 10:00:00',
+		deadline: '2025.04.25 18:00:00',
+		binding: '采购申请单',
+		status: 'pending',
+		currentNode: 1,
+		nodes: [
+			{
+				nodeId: 1,
+				nodeName: '部门审批',
+				approver: '张三',
+				approverId: 'user002',
+				status: 'pending',
+				approveTime: null,
+				comment: null
+			},
+			{
+				nodeId: 2,
+				nodeName: '采购部审批',
+				approver: null,
+				approverId: null,
+				status: 'waiting',
+				approveTime: null,
+				comment: null
+			}
+		],
+		history: []
+	},
+	{
+		id: 3,
+		code: 'RWBH00003',
+		title: '请假申请',
+		type: '请假审批',
+		tag: '请假申请',
+		initiator: '李四',
+		initiatorId: 'user004',
+		createTime: '2025.04.22 09:00:00',
+		deadline: '2025.04.24 18:00:00',
+		binding: '请假单',
+		status: 'approved',
+		currentNode: 2,
+		nodes: [
+			{
+				nodeId: 1,
+				nodeName: '直属领导审批',
+				approver: '张三',
+				approverId: 'user002',
+				status: 'approved',
+				approveTime: '2025.04.22 10:30:00',
+				comment: '同意'
+			},
+			{
+				nodeId: 2,
+				nodeName: 'HR审批',
+				approver: '人事部',
+				approverId: 'user005',
+				status: 'approved',
+				approveTime: '2025.04.22 14:00:00',
+				comment: '同意请假'
+			}
+		],
+		history: [
+			{
+				nodeId: 1,
+				nodeName: '直属领导审批',
+				approver: '张三',
+				action: 'approved',
+				comment: '同意',
+				time: '2025.04.22 10:30:00'
+			},
+			{
+				nodeId: 2,
+				nodeName: 'HR审批',
+				approver: '人事部',
+				action: 'approved',
+				comment: '同意请假',
+				time: '2025.04.22 14:00:00'
+			}
+		]
+	}
+]
+
+// 当前登录用户（模拟）
+const currentUser = {
+	id: 'user002',
+	name: '张三',
+	role: '部门主管'
+}
+
+// 获取待办列表
+export function getApprovalTodoList({ page = 1, pageSize = 10, status = 'pending' } = {}) {
+	// 筛选出当前用户需要审批的任务
+	const myTodos = approvalWorkflows.filter(workflow => {
+		if (status === 'all') return true
+		
+		// 找到当前节点
+		const currentNode = workflow.nodes.find(node => node.nodeId === workflow.currentNode)
+		
+		// 判断是否是当前用户需要审批的
+		const isMyTask = currentNode && currentNode.approverId === currentUser.id && currentNode.status === 'pending'
+		
+		if (status === 'pending') {
+			return isMyTask && workflow.status === 'pending'
+		} else if (status === 'handled') {
+			// 已处理：我审批过的任务
+			return workflow.history.some(h => h.approver === currentUser.name)
+		}
+		
+		return false
+	})
+	
+	const total = myTodos.length
+	const items = myTodos.slice((page - 1) * pageSize, page * pageSize).map(workflow => {
+		const currentNode = workflow.nodes.find(node => node.nodeId === workflow.currentNode)
+		return {
+			id: workflow.id,
+			code: workflow.code,
+			title: workflow.title,
+			tag: workflow.tag,
+			initiator: workflow.initiator,
+			node: currentNode ? currentNode.nodeName : '处理人',
+			time: workflow.createTime.replace(/\./g, '-'),
+			status: workflow.status === 'pending' ? 'unhandled' : 'handled',
+			statusText: workflow.status === 'pending' ? '未处理' : '已办结'
+		}
+	})
+	
+	return withDelay({ code: 0, data: { items, total, page, pageSize } }, 400)
+}
+
+// 获取审批详情
+export function getApprovalDetail({ id } = {}) {
+	const workflow = approvalWorkflows.find(w => w.id === parseInt(id))
+	
+	if (!workflow) {
+		return withDelay({ code: 1, message: '审批任务不存在' }, 300)
+	}
+	
+	const currentNode = workflow.nodes.find(node => node.nodeId === workflow.currentNode)
+	
+	const data = {
+		id: workflow.id,
+		code: workflow.code,
+		title: workflow.title,
+		type: workflow.type,
+		node: currentNode ? currentNode.nodeName : '处理人',
+		createTime: workflow.createTime,
+		deadline: workflow.deadline,
+		initiator: workflow.initiator,
+		status: workflow.status,
+		statusText: workflow.status === 'pending' ? '未处理' : workflow.status === 'approved' ? '已通过' : workflow.status === 'rejected' ? '已驳回' : '已完成',
+		binding: workflow.binding,
+		currentNode: workflow.currentNode,
+		totalNodes: workflow.nodes.length,
+		nodes: workflow.nodes,
+		history: workflow.history,
+		canApprove: currentNode && currentNode.approverId === currentUser.id && currentNode.status === 'pending'
+	}
+	
+	return withDelay({ code: 0, data }, 300)
+}
+
+// 提交审批
+export function submitApproval({ id, action, nextApprover, nextApproverId, comment } = {}) {
+	const workflow = approvalWorkflows.find(w => w.id === parseInt(id))
+	
+	if (!workflow) {
+		return withDelay({ code: 1, message: '审批任务不存在' }, 300)
+	}
+	
+	const currentNode = workflow.nodes.find(node => node.nodeId === workflow.currentNode)
+	
+	if (!currentNode || currentNode.approverId !== currentUser.id) {
+		return withDelay({ code: 1, message: '无权限审批此任务' }, 300)
+	}
+	
+	// 更新当前节点状态
+	currentNode.status = action === 'approved' ? 'approved' : 'rejected'
+	currentNode.approveTime = new Date().toLocaleString('zh-CN', { 
+		year: 'numeric', 
+		month: '2-digit', 
+		day: '2-digit', 
+		hour: '2-digit', 
+		minute: '2-digit', 
+		second: '2-digit' 
+	}).replace(/\//g, '.')
+	currentNode.comment = comment
+	
+	// 添加到历史记录
+	workflow.history.push({
+		nodeId: currentNode.nodeId,
+		nodeName: currentNode.nodeName,
+		approver: currentUser.name,
+		action: action,
+		comment: comment,
+		time: currentNode.approveTime
+	})
+	
+	if (action === 'rejected') {
+		// 驳回：整个流程结束
+		workflow.status = 'rejected'
+	} else {
+		// 通过：进入下一节点
+		if (workflow.currentNode < workflow.nodes.length) {
+			workflow.currentNode++
+			const nextNode = workflow.nodes.find(node => node.nodeId === workflow.currentNode)
+			
+			if (nextNode) {
+				// 如果下一节点需要指定审批人
+				if (!nextNode.approverId && nextApprover && nextApproverId) {
+					nextNode.approver = nextApprover
+					nextNode.approverId = nextApproverId
+				}
+				nextNode.status = 'pending'
+			}
+		} else {
+			// 所有节点都通过，流程完成
+			workflow.status = 'approved'
+		}
+	}
+	
+	return withDelay({ code: 0, message: '审批成功' }, 800)
+}
+
+// 获取可选的下一步审批人列表
+export function getNextApprovers() {
+	const data = [
+		{ id: 'user005', name: '李伟' },
+		{ id: 'user006', name: '陈曦' },
+		{ id: 'user007', name: '王梓涵' },
+		{ id: 'user008', name: '赵雨桐' },
+		{ id: 'user009', name: '刘畅' },
+		{ id: 'user010', name: '张梦琪' },
+		{ id: 'user011', name: '陈明宇' },
+		{ id: 'user012', name: '杨悦' },
+		{ id: 'user013', name: '黄思睿' },
+		{ id: 'user014', name: '周浩然' },
+		{ id: 'user015', name: '吴桐' },
+		{ id: 'user016', name: '马雨欣' },
+		{ id: 'user017', name: '朱星辰' },
+	]
+	return withDelay({ code: 0, data }, 300)
+}

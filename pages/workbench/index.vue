@@ -82,7 +82,6 @@ const sections = reactive([
 	},
 ])
 
-
 </script>
 
 <style>
