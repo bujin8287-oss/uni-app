@@ -1,14 +1,14 @@
 <template>
 	<view class="login-page">
 		<view class="logo">
-			<img src="/static/logo.png" mode="widthFix" />
+			<image class="logo-img" src="@/static/images/log.webp" mode="widthFix" />
 		</view>
 		<view class="form">
-			<input v-model="phone" type="number" placeholder="请输入手机号" class="phone-input" />
-			<button :disabled="loading" @click="oneClickLogin" class="login-btn">
-				{{ loading ? '登录中...' : '一键登录' }}
+			<input v-model="username" type="text" placeholder="请输入账号" class="input" />
+			<input v-model="password" password placeholder="请输入密码" class="input" />
+			<button :disabled="loading" @click="accountLogin" class="login-btn">
+				{{ loading ? '登录中...' : '账号密码登录' }}
 			</button>
-
 		</view>
 	</view>
 </template>
@@ -18,23 +18,66 @@ import api from '@/api'
 export default {
 	data() {
 		return {
-			phone: '',
+			username: '',
+			password: '',
 			loading: false
 		}
 	},
+	// Handle pull-down refresh: reload page data and stop refresh when done
+	onPullDownRefresh() {
+		console.log('onPullDownRefresh')
+		if (this.reloadPage && typeof this.reloadPage === 'function') {
+			const result = this.reloadPage()
+			if (result && typeof result.then === 'function') {
+				result.then(() => uni.stopPullDownRefresh()).catch(() => uni.stopPullDownRefresh())
+			} else {
+				uni.stopPullDownRefresh()
+			}
+		} else {
+			uni.stopPullDownRefresh()
+		}
+	},
 	methods: {
-		oneClickLogin() {
-			this.loading = true
-			api.mobileLogin({ phone: this.phone }).then(res => {
+		// Reload logic for the page; return a Promise so pull-down can wait
+		reloadPage() {
+			return new Promise((resolve) => {
+				// Re-initialize any data or re-fetch if needed
 				this.loading = false
-				uni.reLaunch({ url: '/pages/index/index' })
-				}).catch(err => {
-					this.loading = false
+				// short delay to allow UI to show refresh
+				setTimeout(() => {
+					resolve()
+				}, 300)
+			})
+		},
+		accountLogin() {
+			if (!this.username || !this.password) {
+				uni.showToast({
+					title: '请输入账号和密码',
+					icon: 'none'
+				})
+				return
+			}
+			this.loading = true
+			api.accountLogin({ username: this.username, password: this.password }).then(res => {
+				this.loading = false
+				if (res && res.code === 0) {
+					const { token, user } = res.data || {}
+					if (token) uni.setStorageSync('token', token)
+					if (user) uni.setStorageSync('user', user)
+					uni.reLaunch({ url: '/pages/index/index' })
+				} else {
 					uni.showToast({
-						title: err.message,
+						title: res.message || '登录失败',
 						icon: 'none'
 					})
+				}
+			}).catch(err => {
+				this.loading = false
+				uni.showToast({
+					title: err.message || '登录异常',
+					icon: 'none'
 				})
+			})
 		}
 	}
 }
@@ -112,8 +155,30 @@ uni.login({
 
 
 	},
-	success(res) { // 登录成功
-		console.log(res.authResult); // {openid:'登录授权唯一标识',access_token:'接口返回的 token'}
+	success(res) { // 登录成功：保存授权结果到本地存储后跳转
+		console.log('univerify success', res)
+		// 兼容 authResult 为字符串或对象的情况
+		let authResult = res && res.authResult !== undefined ? res.authResult : res
+		try {
+			// 如果是字符串尝试解析 JSON
+			if (typeof authResult === 'string') {
+				try {
+					authResult = JSON.parse(authResult)
+				} catch (e) {
+					// 保留原始字符串
+					authResult = { raw: authResult }
+				}
+			}
+			// 提取可能的 token 字段
+			const token = authResult && (authResult.access_token || authResult.accessToken || authResult.token || authResult.openid)
+			// 存储授权结果与 token / user（若有）
+			uni.setStorageSync('authResult', authResult)
+			if (token) uni.setStorageSync('token', token)
+			if (authResult && authResult.user) uni.setStorageSync('user', authResult.user)
+		} catch (e) {
+			console.error('store authResult error', e)
+		}
+
 		if (uni.closeAuthView) {
 			uni.closeAuthView()
 		}
@@ -121,7 +186,7 @@ uni.login({
 	},
 	fail(res) { // 登录失败
 		uni.showToast({
-			title: res.errMsg,
+			title: "手机号获取失败",
 			icon: 'none'
 		})
 	}
@@ -139,7 +204,7 @@ uni.login({
 	height: 100vh;
 }
 
-.logo img {
+.logo-img {
 	width: 120px;
 	height: 120px;
 	border-radius: 8px;
@@ -150,7 +215,7 @@ uni.login({
 	width: 88%;
 }
 
-.phone-input {
+.input {
 	width: 100%;
 	height: 44px;
 	padding: 8px 12px;

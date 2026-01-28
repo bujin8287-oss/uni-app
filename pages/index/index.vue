@@ -26,16 +26,16 @@
 
 		<!-- Tabs -->
 		<view class="tabs">
-			<view :class="['tab', activeTab === 'yesterday' ? 'active' : '']" @click="activeTab = 'yesterday'">昨日</view>
-			<view :class="['tab', activeTab === 'week' ? 'active' : '']" @click="activeTab = 'week'">本周</view>
-			<view :class="['tab', activeTab === 'month' ? 'active' : '']" @click="activeTab = 'month'">本月</view>
+			<view :class="['tab', activeTab === 'yesterday' ? 'active' : '']" @click="switchTab('yesterday')">昨日</view>
+			<view :class="['tab', activeTab === 'week' ? 'active' : '']" @click="switchTab('week')">本周</view>
+			<view :class="['tab', activeTab === 'month' ? 'active' : '']" @click="switchTab('month')">本月</view>
 		</view>
 
 		<!-- Top statistics area -->
 		<view class="top-area">
 			<view class="main-card">
-				<text class="card-title">昨日生产数量</text>
-				<text class="card-number">{{ stats.yesterdayProduction }}</text>
+				<text class="card-title">{{ tabTitle }}生产数量</text>
+				<text class="card-number">{{ stats.production }}</text>
 				<view class="card-sub">
 					<view class="sub-item">
 						<text class="sub-label">达成率</text>
@@ -53,12 +53,12 @@
 			</view>
 			<view class="side-cards">
 				<view class="small-card">
-					<text class="small-num">{{ stats.yesterdayOrders }}</text>
-					<text class="small-label">昨日订单数</text>
+					<text class="small-num">{{ stats.orders }}</text>
+					<text class="small-label">{{ tabTitle }}订单数</text>
 				</view>
 				<view class="small-card">
-					<text class="small-num">{{ stats.yesterdayOutbound }}</text>
-					<text class="small-label">昨日出库数</text>
+					<text class="small-num">{{ stats.outbound }}</text>
+					<text class="small-label">{{ tabTitle }}出库数</text>
 				</view>
 			</view>
 		</view>
@@ -73,73 +73,178 @@
 
 		<!-- Work order statistics -->
 		<view class="workorder-area">
-			<view class="donut-card">
-				<view class="donut">
-					<view class="donut-center">
-						<text class="donut-number">{{ workOrders.total }}</text>
-						<text class="donut-label">全部工单</text>
+			<view class="workorder-header">
+				<text class="workorder-title">工单统计</text>
+			</view>
+			<view class="workorder-content">
+				<view class="donut-card">
+					<view class="donut">
+						<view class="donut-center">
+							<text class="donut-number">{{ workOrders.total }}</text>
+							<text class="donut-label">全部工单</text>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="legend">
-				<view class="legend-item" v-for="(item, idx) in workOrders.legend" :key="idx">
-					<view :style="{backgroundColor: item.color}" class="legend-dot"></view>
-					<text class="legend-text">{{ item.name }} {{ item.count }}</text>
-				</view>
-			</view>
-		</view>
-
-		<!-- 产品统计（独立模块） -->
-		<view class="stats-area" style="margin-top:18rpx;">
-			<view class="stats-card" style="display:flex;align-items:center;gap:14rpx;">
-				<text class="card-title" style="flex-basis:100%;">产品统计</text>
-			</view>
-			<view style="margin-top:12rpx;display:flex;align-items:center;gap:14rpx;flex-wrap:wrap;">
-				<view style="width:120rpx;height:120rpx;border-radius:60rpx;background:conic-gradient(#6CC0FF 0deg 120deg,#A58CFF 120deg 220deg,#23D3A6 220deg 300deg,#9B4CFF 300deg 360deg);display:flex;align-items:center;justify-content:center;">
-					<view style="width:80rpx;height:80rpx;border-radius:40rpx;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-						<text style="font-size:32rpx;font-weight:700;">{{ productsStats.total }}</text>
-						<text style="font-size:20rpx;color:#9b9b9b;margin-top:6rpx;">产品总数</text>
-					</view>
-				</view>
-				<view style="flex:1;min-width:200rpx;">
-					<view v-for="(p, idx) in productsStats.items" :key="idx" style="display:flex;align-items:center;gap:10rpx;margin-bottom:10rpx;">
-						<view :style="{backgroundColor: p.color, width:'12rpx', height:'12rpx', borderRadius:'6rpx'}"></view>
-						<text style="font-size:22rpx;color:#333;">{{ p.name }}</text>
-						<text style="margin-left:auto;color:#9b9b9b;">{{ p.count }}</text>
+				<view class="legend">
+					<view class="legend-item" v-for="(item, idx) in workOrders.legend" :key="idx">
+						<view :style="{backgroundColor: item.color}" class="legend-dot"></view>
+						<text class="legend-text">{{ item.name }} {{ item.count }}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 
-		<!-- 缺陷统计（独立模块） -->
-		<view class="stats-area" style="margin-top:18rpx;">
-			<view class="stats-card" style="display:flex;align-items:center;gap:14rpx;">
-				<text class="card-title" style="flex-basis:100%;">缺陷统计</text>
+		<!-- 产品统计（统一样式） -->
+		<view class="workorder-area" style="margin-top:24rpx;">
+			<view class="workorder-header">
+				<text class="workorder-title">产品统计</text>
 			</view>
-			<view style="margin-top:12rpx;display:flex;align-items:center;gap:14rpx;flex-wrap:wrap;">
-				<view style="width:120rpx;height:120rpx;border-radius:60rpx;background:conic-gradient(#0B4C7A 0deg 160deg,#9B9BBF 160deg 240deg,#3A1A3A 240deg 300deg,#3E8A6B 300deg 360deg);display:flex;align-items:center;justify-content:center;">
-					<view style="width:80rpx;height:80rpx;border-radius:40rpx;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-						<text style="font-size:28rpx;font-weight:700;">{{ defectsStats.total }}</text>
-						<text style="font-size:18rpx;color:#9b9b9b;margin-top:6rpx;">缺陷总数</text>
+			<view class="workorder-content">
+				<view class="donut-card">
+					<view class="donut" style="background:conic-gradient(#6CC0FF 0deg 120deg,#A58CFF 120deg 220deg,#23D3A6 220deg 300deg,#9B4CFF 300deg 360deg);">
+						<view class="donut-center">
+							<text class="donut-number">{{ productsStats.total }}</text>
+							<text class="donut-label">产品总数</text>
+						</view>
 					</view>
 				</view>
-				<view style="flex:1;min-width:200rpx;">
-					<view v-for="(d, idx) in defectsStats.items" :key="idx" style="display:flex;align-items:center;gap:10rpx;margin-bottom:10rpx;">
-						<view :style="{backgroundColor: d.color, width:'12rpx', height:'12rpx', borderRadius:'6rpx'}"></view>
-						<text style="font-size:22rpx;color:#333;">{{ d.name }}</text>
-						<text style="margin-left:auto;color:#9b9b9b;">{{ d.count }}</text>
+				<view class="legend">
+					<view class="legend-item" v-for="(p, idx) in productsStats.items" :key="idx">
+						<view class="legend-dot" :style="{ backgroundColor: p.color }"></view>
+						<text class="legend-text">{{ p.name }} {{ p.count }}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 
-		<!-- 产出统计图与进度列表（独立模块） -->
+		<!-- 缺陷统计（统一样式） -->
+		<view class="workorder-area" style="margin-top:24rpx;">
+			<view class="workorder-header">
+				<text class="workorder-title">缺陷统计</text>
+			</view>
+			<view class="workorder-content">
+				<view class="donut-card">
+					<view class="donut" style="background:conic-gradient(#0B4C7A 0deg 160deg,#9B9BBF 160deg 240deg,#3A1A3A 240deg 300deg,#3E8A6B 300deg 360deg);">
+						<view class="donut-center">
+							<text class="donut-number">{{ defectsStats.total }}</text>
+							<text class="donut-label">缺陷总数</text>
+						</view>
+					</view>
+				</view>
+				<view class="legend">
+					<view class="legend-item" v-for="(d, idx) in defectsStats.items" :key="idx">
+						<view class="legend-dot" :style="{ backgroundColor: d.color }"></view>
+						<text class="legend-text">{{ d.name }} {{ d.count }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 工单产出统计折线图 -->
 		<view class="stats-area" style="margin-top:18rpx;">
 			<view class="chart-card">
-				<text class="card-title">工单产出统计</text>
-				<view class="chart-placeholder">折线图占位（产出数 / 完成率）</view>
+				<view class="chart-header-row">
+					<text class="card-title">工单产出统计</text>
+					<view class="chart-legend-row">
+						<view class="chart-legend-item">
+							<view class="chart-legend-dot bar"></view>
+							<text class="chart-legend-text">产出数</text>
+						</view>
+						<view class="chart-legend-item">
+							<view class="chart-legend-dot line"></view>
+							<text class="chart-legend-text">完成率</text>
+						</view>
+					</view>
+				</view>
+				<view class="line-chart">
+					<view class="chart-main">
+						<view class="chart-bars">
+							<view
+								v-for="(val, idx) in productionChart.values"
+								:key="idx"
+								class="chart-bar"
+								:style="{ height: (val / productionChart.maxValue * 100) + '%' }"
+							></view>
+						</view>
+						<view class="chart-line">
+							<view
+								v-for="(rate, idx) in productionChart.rate"
+								:key="idx"
+								class="chart-dot"
+								:style="{
+									left: (idx / (productionChart.rate.length - 1 || 1) * 100) + '%',
+									bottom: (rate / productionChart.maxRate * 100) + '%'
+								}"
+							></view>
+						</view>
+					</view>
+					<view class="chart-x-labels">
+						<text
+							v-for="(label, idx) in productionChart.labels"
+							:key="idx"
+							class="chart-x-label"
+						>{{ label }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 产品合格率折线图 -->
+		<view class="stats-area" style="margin-top:18rpx;">
+			<view class="chart-card">
+				<view class="chart-header-row">
+					<text class="card-title">产品合格率</text>
+					<view class="chart-legend-row">
+						<view class="chart-legend-item">
+							<view class="chart-legend-dot line"></view>
+							<text class="chart-legend-text">合格率</text>
+						</view>
+					</view>
+				</view>
+				<view class="line-chart line-only">
+					<view class="chart-main">
+						<view class="chart-line background"></view>
+						<view class="chart-line">
+							<view
+								v-for="(rate, idx) in productPassChart.rate"
+								:key="idx"
+								class="chart-dot"
+								:style="{
+									left: (idx / (productPassChart.rate.length - 1 || 1) * 100) + '%',
+									bottom: (rate / productPassChart.maxRate * 100) + '%'
+								}"
+							></view>
+						</view>
+					</view>
+					<view class="chart-x-labels">
+						<text
+							v-for="(label, idx) in productPassChart.labels"
+							:key="idx"
+							class="chart-x-label"
+						>{{ label }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 工单生产进度（支持近五单 / 近十单切换） -->
+		<view class="stats-area" style="margin-top:18rpx;margin-bottom: 100rpx;">
+			<view class="chart-card">
+				<view class="progress-header">
+					<text class="card-title">工单生产进度</text>
+					<view class="progress-tabs">
+						<text
+							:class="['progress-tab', workOrderViewCount === 5 ? 'active' : '']"
+							@click="setWorkOrderViewCount(5)"
+						>近五单</text>
+						<text
+							:class="['progress-tab', workOrderViewCount === 10 ? 'active' : '']"
+							@click="setWorkOrderViewCount(10)"
+						>近十单</text>
+					</view>
+				</view>
 				<view class="progress-list">
-					<view class="progress-item" v-for="(it, i) in workOrderProgressList" :key="i">
+					<view class="progress-item" v-for="(it, i) in visibleWorkOrderProgress" :key="i">
 						<view class="progress-left">
 							<text class="progress-order">{{ it.order }}</text>
 							<text class="progress-sub">{{ it.name }}　数量 {{ it.qty }}</text>
@@ -155,23 +260,61 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, onMounted, computed } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import api from '@/api'
 import BottomNav from '@/components/business/BottomNav.vue'
+import { openFeature } from '@/components/business/featureNavigation.js'
 
-const userName = ref('刘明湘')
+const userName = ref('admin')
 const activeTab = ref('yesterday')
 const loading = ref(true)
 
 const stats = reactive({
-	yesterdayProduction: 0,
+	production: 0,
 	reachRate: '0%',
 	passRate: '0%',
 	reworkCount: 0,
-	yesterdayOrders: 0,
-	yesterdayOutbound: 0,
+	orders: 0,
+	outbound: 0,
 })
+
+// 计算当前标签的标题文本
+const tabTitle = computed(() => {
+	const titleMap = {
+		yesterday: '昨日',
+		week: '本周',
+		month: '本月',
+	}
+	return titleMap[activeTab.value] || '昨日'
+})
+
+// 切换标签并加载数据
+async function switchTab(tab) {
+	if (activeTab.value === tab) return
+	activeTab.value = tab
+	await loadStats()
+}
+
+// 加载统计数据
+async function loadStats() {
+	loading.value = true
+	try {
+		const res = await api.getHomeStats({ timeRange: activeTab.value })
+		if (res && res.code === 0 && res.data) {
+			stats.production = res.data.production || 0
+			stats.reachRate = res.data.reachRate || '0%'
+			stats.passRate = res.data.passRate || '0%'
+			stats.reworkCount = res.data.reworkCount || 0
+			stats.orders = res.data.orders || 0
+			stats.outbound = res.data.outbound || 0
+		}
+	} catch (e) {
+		console.error('getHomeStats error', e)
+	} finally {
+		loading.value = false
+	}
+}
 
 const AVAILABLE_FEATURES = [
 	// 计划管理
@@ -231,101 +374,6 @@ function loadHomeShortcuts() {
 	features.push({ name: '更多', icon: '+' })
 }
 
-function openFeature(item) {
-	if (!item || !item.name) return
-
-	// 销售订单跳转到销售订单页面
-	if (item.name === '销售订单') {
-		uni.navigateTo({ url: '/pages/workbench/plan-management/sales-order/index' })
-		return
-	}
-	// 生产计划跳转到生产计划页面
-	if (item.name === '生产计划') {
-		uni.navigateTo({ url: '/pages/workbench/plan-management/product-plan/index' })
-		return
-	}
-	// 生产报工跳转到生产报工页面
-	if (item.name === '生产报工') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-record-sub/index' })
-		return
-	}
-	// 生产工单跳转到生产工单页面
-	if (item.name === '生产工单') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-order/index' })
-		return
-	}
-	// 报工记录跳转到报工记录页面
-	if (item.name === '报工记录') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/work-record/index' })
-		return
-	}
-	// 生产达成跳转到生产达成页面
-	if (item.name === '生产达成') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-complete/index' })
-		return
-	}
-	// 生产准时跳转到生产准时页面
-	if (item.name === '生产准时') {
-		uni.navigateTo({ url: '/pages/workbench/product-management/product-on-time/index' })
-		return
-	}
-	// 来料检验跳转到来料检验页面
-	if (item.name === '来料检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/incoming-inspection/index' })
-		return
-	}
-	// 过程检验跳转到过程检验页面
-	if (item.name === '过程检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/process-inspection/index' })
-		return
-	}
-	// 最终检验跳转到最终检验页面
-	if (item.name === '最终检验') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/final-inspection/index' })
-		return
-	}
-	// 设备维修跳转到设备维修页面
-	if (item.name === '设备维修') {
-		uni.navigateTo({ url: '/pages/workbench/device-repair/index' })
-		return
-	}
-	// 追溯管理跳转到追溯管理页面
-	if (item.name === '追溯管理') {
-		uni.navigateTo({ url: '/pages/workbench/quality-control/trace-management/index' })
-		return
-	}
-	// 设备档案跳转到档案页面
-	if (item.name === '设备档案') {
-		uni.navigateTo({ url: '/pages/workbench/archive/index' })
-		return
-	}
-	// 设备报废跳转到报废页面
-	if (item.name === '设备报废') {
-		uni.navigateTo({ url: '/pages/workbench/device-scrap/index' })
-		return
-	}
-	// 仓库功能跳转（采购入库/生产领料/生产退料/产品出库）
-	if (item.name === '采购入库') {
-		uni.navigateTo({ url: '/pages/workbench/warehouse/placeholder' })
-		return
-	}
-	if (item.name === '生产领料') {
-		uni.navigateTo({ url: '/pages/workbench/warehouse/placeholder' })
-		return
-	}
-	if (item.name === '生产退料') {
-		uni.navigateTo({ url: '/pages/workbench/warehouse/placeholder' })
-		return
-	}
-	if (item.name === '产品出库') {
-		uni.navigateTo({ url: '/pages/workbench/warehouse/placeholder' })
-		return
-	}
-
-	// 其他功能跳转到通用功能页
-	const url = `/pages/feature/index?name=${encodeURIComponent(item.name)}`
-	uni.navigateTo({ url })
-}
 
 const workOrders = reactive({
 	total: 198,
@@ -360,7 +408,15 @@ const defectsStats = reactive({
 const productionChart = reactive({
 	labels: ['4.2','4.3','4.4','4.5','4.6','4.7','4.8','4.9','4.10'],
 	values: [120, 95, 140, 110, 130, 180, 125, 135, 160],
-	rate: [0.88,0.85,0.9,0.87,0.92,0.95,0.91,0.9,0.94]
+	rate: [0.88,0.85,0.9,0.87,0.92,0.95,0.91,0.9,0.94],
+	maxValue: 200,
+	maxRate: 1,
+})
+
+const productPassChart = reactive({
+	labels: ['4.2','4.3','4.4','4.5','4.6','4.7','4.8','4.9','4.10'],
+	rate: [0.93,0.95,0.94,0.955,0.96,0.958,0.962,0.957,0.969],
+	maxRate: 1,
 })
 
 const workOrderProgressList = reactive([
@@ -369,20 +425,25 @@ const workOrderProgressList = reactive([
 	{ order: 'SVDD00003', name: '笔记本电脑', qty: 1000, progress: '80.2%' },
 	{ order: 'SVDD00004', name: '笔记本电脑', qty: 1000, progress: '66.5%' },
 	{ order: 'SVDD00005', name: '笔记本电脑', qty: 1000, progress: '52.7%' },
+	{ order: 'SVDD00006', name: '笔记本电脑', qty: 1000, progress: '48.2%' },
+	{ order: 'SVDD00007', name: '笔记本电脑', qty: 1000, progress: '42.6%' },
+	{ order: 'SVDD00008', name: '笔记本电脑', qty: 1000, progress: '38.1%' },
+	{ order: 'SVDD00009', name: '笔记本电脑', qty: 1000, progress: '33.4%' },
+	{ order: 'SVDD00010', name: '笔记本电脑', qty: 1000, progress: '28.9%' },
 ])
 
+// 工单进度列表显示条数（5 / 10）
+const workOrderViewCount = ref(5)
+const visibleWorkOrderProgress = computed(() => {
+	return workOrderProgressList.slice(0, workOrderViewCount.value)
+})
+
+function setWorkOrderViewCount(count) {
+	workOrderViewCount.value = count
+}
+
 onMounted(async () => {
-	loading.value = true
-	try {
-		const res = await api.getHomeStats()
-		if (res && res.code === 0 && res.data) {
-			Object.assign(stats, res.data)
-		}
-	} catch (e) {
-		console.error('getHomeStats error', e)
-	} finally {
-		loading.value = false
-	}
+	await loadStats()
 })
 
 onShow(() => {
@@ -584,6 +645,18 @@ loadHomeShortcuts()
 	padding: 24rpx;
 	border-radius: 14rpx;
 	display: flex;
+	flex-direction: column;
+}
+.workorder-header {
+	margin-bottom: 20rpx;
+}
+.workorder-title {
+	font-size: 28rpx;
+	font-weight: 600;
+	color: #333;
+}
+.workorder-content {
+	display: flex;
 	gap: 20rpx;
 	align-items: center;
 }
@@ -669,13 +742,101 @@ loadHomeShortcuts()
 	padding: 18rpx;
 	box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.03);
 }
-.chart-placeholder {
-	height: 180rpx;
+.chart-header-row {
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	color: #a9a9c8;
-	font-size: 24rpx;
+	justify-content: space-between;
+}
+.chart-legend-row {
+	display: flex;
+	gap: 16rpx;
+	align-items: center;
+}
+.chart-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 6rpx;
+}
+.chart-legend-dot {
+	width: 14rpx;
+	height: 14rpx;
+	border-radius: 7rpx;
+}
+.chart-legend-dot.bar {
+	background: #3b82f6;
+}
+.chart-legend-dot.line {
+	border-radius: 7rpx;
+	border: 3rpx solid #22c55e;
+	background: transparent;
+}
+.chart-legend-text {
+	font-size: 22rpx;
+	color: #666;
+}
+.line-chart {
+	margin-top: 14rpx;
+}
+.line-chart .chart-main {
+	position: relative;
+	height: 180rpx;
+	background: linear-gradient(180deg,rgba(59,130,246,0.05),rgba(59,130,246,0));
+	border-radius: 12rpx;
+	padding: 8rpx 0;
+	overflow: hidden;
+}
+.line-chart.line-only .chart-main {
+	background: linear-gradient(180deg,rgba(34,197,94,0.08),rgba(34,197,94,0));
+}
+.chart-bars {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	display: flex;
+	align-items: flex-end;
+	padding: 0 24rpx 18rpx;
+	gap: 10rpx;
+	box-sizing: border-box;
+}
+.chart-bar {
+	flex: 1;
+	background: #3b82f6;
+	border-radius: 6rpx 6rpx 0 0;
+	opacity: 0.9;
+}
+.chart-line {
+	position: absolute;
+	left: 24rpx;
+	right: 24rpx;
+	top: 12rpx;
+	bottom: 18rpx;
+}
+.chart-line.background {
+	background: linear-gradient(180deg,rgba(34,197,94,0.12),rgba(34,197,94,0));
+	border-radius: 12rpx;
+}
+.chart-dot {
+	position: absolute;
+	width: 14rpx;
+	height: 14rpx;
+	margin-left: -7rpx;
+	margin-bottom: -7rpx;
+	background: #22c55e;
+	border-radius: 7rpx;
+	border: 3rpx solid #e0f7e9;
+	box-sizing: border-box;
+}
+.chart-x-labels {
+	margin-top: 8rpx;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 24rpx;
+}
+.chart-x-label {
+	font-size: 20rpx;
+	color: #9b9b9b;
 }
 .progress-list {
 	margin-top: 12rpx;
@@ -707,6 +868,24 @@ loadHomeShortcuts()
 	border-radius: 10rpx;
 	margin-top: 8rpx;
 	width: 60%;
+}
+/* 工单进度头部与切换按钮 */
+.progress-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.progress-tabs {
+	display: flex;
+	gap: 16rpx;
+	font-size: 22rpx;
+}
+.progress-tab {
+	color: #9b9b9b;
+}
+.progress-tab.active {
+	color: #5b4bff;
+	font-weight: 600;
 }
 
 /* 响应式调整：小屏时堆叠卡片 */

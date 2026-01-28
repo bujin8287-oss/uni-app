@@ -62,7 +62,7 @@ import { reactive } from 'vue'
 import BottomNav from '@/components/business/BottomNav.vue'
 
 const user = reactive({
-	name: '刘明湘',
+	name: 'admin',
 	company: '华某产业股份有限公司'
 })
 
@@ -96,7 +96,7 @@ function logout() {
 	uni.showModal({
 		title: '提示', content: '确定退出登录？', success(res) {
 			if (res.confirm) {
-				uni.reLaunch({ url: '/pages/index/index' })
+				uni.reLaunch({ url: '/pages/login/index' })
 			}
 		}
 	})

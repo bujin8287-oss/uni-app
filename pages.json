@@ -19,6 +19,38 @@
 			}
 		},
 		{
+			"path": "pages/abnormal/detail",
+			"style": {
+				"navigationBarTitleText": "异常详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/abnormal/handle",
+			"style": {
+				"navigationBarTitleText": "处理",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/abnormal/result-select",
+			"style": {
+				"navigationBarTitleText": "处理结果",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/abnormal/handler-select",
+			"style": {
+				"navigationBarTitleText": "处理人",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
 			"path": "pages/workbench/index",
 			"style": {
 				"navigationBarTitleText": "工作台"
