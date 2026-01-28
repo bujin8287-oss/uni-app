@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <title>QQ</title>
+  <defs>
+    <style>
+      .bg{fill:#12B7F5;}
+      .fg{fill:#FFFFFF;}
+    </style>
+  </defs>
+  <circle class="bg" cx="32" cy="32" r="30"/>
+  <!-- simple QQ mark -->
+  <path class="fg" d="M22 42c-4.4 0-8-3.6-8-8s3.6-8 8-8c2.6 0 4.9 1.2 6.4 3.1-1.4 1.2-2.3 3-2.3 5.1 0 3.6 2.9 6.5 6.5 6.5H42v4H22z"/>
+  <path class="fg" d="M42 22c4.4 0 8 3.6 8 8s-3.6 8-8 8c-2.6 0-4.9-1.2-6.4-3.1 1.4-1.2 2.3-3 2.3-5.1 0-3.6-2.9-6.5-6.5-6.5H22v-4h20z"/>
+  <circle class="fg" cx="27.5" cy="32" r="1.9"/>
+  <circle class="fg" cx="36.5" cy="32" r="1.9"/>
+</svg>
+
