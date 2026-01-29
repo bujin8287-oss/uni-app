@@ -26,7 +26,7 @@
 
 <script setup>
 import { reactive } from 'vue'
-import BottomNav from '@/components/business/BottomNav.vue'
+import BottomNav from '@/components/general/BottomNav.vue'
 import { openFeature } from '../../components/business/featureNavigation'
 const sections = reactive([
 	{

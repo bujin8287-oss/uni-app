@@ -31,13 +31,18 @@ function handleLogin() {
 	api.accountLogin({ username: username.value, password: password.value })
 		.then(res => {
 			loading.value = false
-			if (res && res.code === 0) {
-				const { token, user } = res.data || {}
+			console.log('accountLogin response:', res)
+			// 兼容 mock（{code:0,data:{token,user}}）与后端真实返回（{success:true,token,user}）
+			const ok = !!(res && (res.success === true || res.code === 0))
+			if (ok) {
+				const token = res.token || (res.data && res.data.token)
+				const user = res.user || (res.data && res.data.user)
 				if (token) uni.setStorageSync('token', token)
 				if (user) uni.setStorageSync('user', user)
 				emit('success', { token, user })
 			} else {
-				const errorMsg = res.message || '登录失败'
+				const statusHint = res && res.__statusCode ? `(${res.__statusCode})` : ''
+				const errorMsg = (res && res.message) ? `${res.message}${statusHint}` : `登录失败${statusHint}`
 				uni.showToast({
 					title: errorMsg,
 					icon: 'none'

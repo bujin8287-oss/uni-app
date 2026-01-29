@@ -48,7 +48,7 @@
 
 <script setup>
 import { ref, computed, reactive, onBeforeUnmount } from 'vue'
-import BottomNav from '@/components/business/BottomNav.vue'
+import BottomNav from '@/components/general/BottomNav.vue'
 import { debounce } from '@/hook/debounce'
 
 const query = ref('')

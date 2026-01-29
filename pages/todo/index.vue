@@ -50,7 +50,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { getApprovalTodoList } from '@/api/mock.js'
-import BottomNav from '@/components/business/BottomNav.vue'
+import BottomNav from '@/components/general/BottomNav.vue'
 
 const query = ref('')
 const showFilter = ref(false)
