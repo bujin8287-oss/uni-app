@@ -59,7 +59,7 @@
 
 <script setup>
 import { reactive } from 'vue'
-import BottomNav from '@/components/business/BottomNav.vue'
+import BottomNav from '@/components/general/BottomNav.vue'
 
 const user = reactive({
 	name: 'admin',

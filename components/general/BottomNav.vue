@@ -70,7 +70,7 @@ function switchTo(key) {
 	justify-content: space-around;
 	align-items: center;
 	background: #fff;
-	box-shadow: 0 -6rpx 20rpx rgba(0,0,0,0.06);
+	box-shadow: 0 -6rpx 20rpx rgba(0, 0, 0, 0.06);
 	z-index: 1000;
 	padding-left: 20rpx;
 	padding-right: 20rpx;
@@ -98,14 +98,14 @@ function switchTo(key) {
 	width: 110rpx;
 	height: 110rpx;
 	border-radius: 55rpx;
-	background: linear-gradient(180deg,#6a5bff,#8b6cff);
+	background: linear-gradient(180deg, #6a5bff, #8b6cff);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: #fff;
 	font-weight: 700;
 	font-size: 26rpx;
-	box-shadow: 0 10rpx 30rpx rgba(107,84,255,0.2);
+	box-shadow: 0 10rpx 30rpx rgba(107, 84, 255, 0.2);
 	margin-bottom: 30rpx;
 }
 </style>

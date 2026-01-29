@@ -263,7 +263,7 @@
 import { reactive, ref, onMounted, computed } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import api from '@/api'
-import BottomNav from '@/components/business/BottomNav.vue'
+import BottomNav from '@/components/general/BottomNav.vue'
 import { openFeature } from '@/components/business/featureNavigation.js'
 
 const userName = ref('admin')

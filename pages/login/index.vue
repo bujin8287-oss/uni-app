@@ -7,11 +7,16 @@
 			<!-- 根据平台显示不同的登录组件 -->
 			<!-- 微信小程序：显示微信登录和账号密码登录 -->
 			<!-- #ifdef MP-WEIXIN -->
-			<WechatLogin @success="handleLoginSuccess" @error="handleLoginError" />
-			<view class="divider">
-				<text class="divider-text">或</text>
+			<view v-if="flag">
+				<AccountLogin @success="handleLoginSuccess" @error="handleLoginError" />
 			</view>
-			<AccountLogin @success="handleLoginSuccess" @error="handleLoginError" />
+			<view v-else>
+				<WechatLogin @success="handleLoginSuccess" @error="handleLoginError" />
+			</view>
+			<button @click="flag = !flag">其他登录方式</button>
+
+
+
 			<!-- #endif -->
 
 			<!-- App环境：显示一键登录、微信登录、QQ登录、Apple登录（iOS）和账号密码登录 -->
@@ -25,8 +30,10 @@
 				<text class="divider-text">其他登录方式</text>
 			</view>
 			<view style="display: flex; align-items: center; justify-content: space-between;">
-				<WechatLogin @success="handleLoginSuccess" @error="handleLoginError" style="flex: 1; margin-right: 10rpx;" />
-				<QQLogin @success="handleLoginSuccess" @error="handleLoginError" style="flex: 1; margin-right: 10rpx;" />
+				<WechatLogin @success="handleLoginSuccess" @error="handleLoginError"
+					style="flex: 1; margin-right: 10rpx;" />
+				<QQLogin @success="handleLoginSuccess" @error="handleLoginError"
+					style="flex: 1; margin-right: 10rpx;" />
 				<AppleLogin v-if="isIOS" @success="handleLoginSuccess" @error="handleLoginError" style="flex: 1;" />
 			</view>
 			<!-- #endif -->
