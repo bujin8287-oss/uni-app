@@ -104,6 +104,12 @@
 			}
 		},
 		{
+			"path": "pages/my/complete-profile",
+			"style": {
+				"navigationBarTitleText": "完善资料"
+			}
+		},
+		{
 			"path": "pages/my/password",
 			"style": {
 				"navigationStyle": "custom",

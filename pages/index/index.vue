@@ -265,8 +265,9 @@ import { onShow } from '@dcloudio/uni-app'
 import api from '@/api'
 import BottomNav from '@/components/general/BottomNav.vue'
 import { openFeature } from '@/components/business/featureNavigation.js'
+import { readStoredUser, resolveUserName } from '@/utils/user.js'
 
-const userName = ref('admin')
+const userName = ref('') // 登录后从本地存储读取用户名
 const activeTab = ref('yesterday')
 const loading = ref(true)
 
@@ -278,6 +279,12 @@ const stats = reactive({
 	orders: 0,
 	outbound: 0,
 })
+
+// 从本地存储中加载登录用户名称（封装在 utils/user.js）
+function loadUserName() {
+	const u = readStoredUser()
+	userName.value = resolveUserName(u)
+}
 
 // 计算当前标签的标题文本
 const tabTitle = computed(() => {
@@ -443,10 +450,12 @@ function setWorkOrderViewCount(count) {
 }
 
 onMounted(async () => {
+	loadUserName()
 	await loadStats()
 })
 
 onShow(() => {
+	loadUserName()
 	loadHomeShortcuts()
 })
 

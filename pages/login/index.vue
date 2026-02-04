@@ -114,6 +114,72 @@ function reloadPage() {
 // 登录成功回调
 function handleLoginSuccess(data) {
 	console.log('登录成功', data)
+	const user = data && data.user ? data.user : null
+	const loginType = data && data.loginType ? data.loginType : null
+	
+	// 一键登录的特殊处理：根据后端返回的用户信息判断是否需要完善信息
+	if (loginType === 'univerify') {
+		// 一键登录：如果用户存在且信息完整，直接进入首页；否则跳转完善信息页面
+		const needComplete = 
+			!user ||
+			!user.phone ||
+			user.isFirstLogin === true ||
+			!user.username ||
+			!user.realName ||
+			(typeof user.username === 'string' && user.username.startsWith('phone_'))
+		
+		if (needComplete) {
+			uni.reLaunch({ url: '/pages/my/complete-profile' })
+			return
+		}
+		
+		// 用户信息完整，直接进入首页
+		uni.reLaunch({ url: '/pages/index/index' })
+		return
+	}
+	
+	// 微信登录的特殊处理：如果用户信息完整（有phone、realName等），直接进入首页
+	if (loginType === 'wechat') {
+		// 微信登录：检查用户信息是否完整
+		// 如果用户已完善过信息（有phone、realName，且isFirstLogin为false），直接进入首页
+		const isInfoComplete = 
+			user &&
+			user.phone &&
+			user.realName &&
+			user.isFirstLogin === false &&
+			!(typeof user.username === 'string' && (user.username.startsWith('wxmp_') || user.username.startsWith('wxapp_') || user.username.startsWith('wx_')))
+		
+		if (isInfoComplete) {
+			// 用户信息完整，直接进入首页
+			uni.reLaunch({ url: '/pages/index/index' })
+			return
+		}
+		
+		// 用户信息不完整，需要完善信息
+		// 注意：微信登录第一次登录时，后端会创建用户并设置isFirstLogin=true
+		// 如果用户已经完善过信息，isFirstLogin会被设置为false，此时直接进入首页
+		if (user && user.isFirstLogin === true) {
+			uni.reLaunch({ url: '/pages/my/complete-profile' })
+			return
+		}
+		
+		// 其他情况（用户存在但信息不完整），也需要完善信息
+		uni.reLaunch({ url: '/pages/my/complete-profile' })
+		return
+	}
+	
+	// 其他登录方式的处理逻辑（账号密码登录等）
+	const needComplete =
+		!user ||
+		!user.phone ||
+		user.isFirstLogin === true ||
+		(typeof user.username === 'string' && (user.username.startsWith('wxmp_') || user.username.startsWith('wxapp_')))
+
+	if (needComplete) {
+		uni.reLaunch({ url: '/pages/my/complete-profile' })
+		return
+	}
+
 	uni.reLaunch({ url: '/pages/index/index' })
 }
 
