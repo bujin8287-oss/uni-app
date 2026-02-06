@@ -17,43 +17,58 @@ const emit = defineEmits(['success', 'error'])
 
 const loading = ref(false)
 
+// 统一处理后端返回的登录结果
+function handleLoginResponse(res) {
+	loading.value = false
+
+	if (!res) {
+		uni.showToast({
+			title: '登录失败，后端无响应',
+			icon: 'none'
+		})
+		emit('error', new Error('登录失败，后端无响应'))
+		return
+	}
+
+	// 后端 BJ 登录/微信登录返回结构：{ success, message, token, user, loginType, ... }
+	if (res.success) {
+		const { token, user, loginType } = res
+		if (token) uni.setStorageSync('token', token)
+		if (user) uni.setStorageSync('user', user)
+		emit('success', { token, user, loginType: loginType || 'wechat' })
+	} else {
+		const errorMsg = res.message || '登录失败'
+		uni.showToast({
+			title: errorMsg,
+			icon: 'none'
+		})
+		emit('error', new Error(errorMsg))
+	}
+}
+
 function handleLogin() {
 	loading.value = true
-	
+
 	// 微信小程序登录
 	// #ifdef MP-WEIXIN
 	uni.login({
 		provider: 'weixin',
 		success: (loginRes) => {
 			if (loginRes.code) {
-				// 将 code 发送到后端换取 token
-				// 这里模拟调用后端接口
-				api.mobileLogin({ 
-					encryptedData: loginRes.code,
-					iv: 'mock-iv'
-				}).then(res => {
-					loading.value = false
-					if (res && res.code === 0) {
-						const { token, user } = res.data || {}
-						if (token) uni.setStorageSync('token', token)
-						if (user) uni.setStorageSync('user', user)
-						emit('success', { token, user })
-					} else {
-						const errorMsg = res.message || '登录失败'
+				// 将 code 发送到后端换取系统 token（真实后端接口）
+				api.wechatLogin({
+					code: loginRes.code,
+					platform: 'mp-weixin'
+				})
+					.then(handleLoginResponse)
+					.catch(err => {
+						loading.value = false
 						uni.showToast({
-							title: errorMsg,
+							title: err.message || '登录异常',
 							icon: 'none'
 						})
-						emit('error', new Error(errorMsg))
-					}
-				}).catch(err => {
-					loading.value = false
-					uni.showToast({
-						title: err.message || '登录异常',
-						icon: 'none'
+						emit('error', err)
 					})
-					emit('error', err)
-				})
 			} else {
 				loading.value = false
 				uni.showToast({
@@ -73,31 +88,28 @@ function handleLogin() {
 		}
 	})
 	// #endif
-	
+
 	// App 微信登录
 	// #ifdef APP-PLUS
 	uni.login({
 		provider: 'weixin',
 		success: (loginRes) => {
-			// App 微信登录返回的是 authResult
+			// App 微信登录返回的是 authResult，由后端统一处理并生成 token
 			const authResult = loginRes.authResult || loginRes
-			const token = authResult.access_token || authResult.accessToken || authResult.openid
-			
-			if (token) {
-				uni.setStorageSync('token', token)
-				uni.setStorageSync('authResult', authResult)
-				const user = authResult.user || { name: '微信用户' }
-				if (user) uni.setStorageSync('user', user)
-				loading.value = false
-				emit('success', { token, user })
-			} else {
-				loading.value = false
-				uni.showToast({
-					title: '微信登录失败',
-					icon: 'none'
+
+			api.wechatLogin({
+				platform: 'app-plus',
+				authResult
+			})
+				.then(handleLoginResponse)
+				.catch(err => {
+					loading.value = false
+					uni.showToast({
+						title: err.message || '登录异常',
+						icon: 'none'
+					})
+					emit('error', err)
 				})
-				emit('error', new Error('微信登录失败'))
-			}
 		},
 		fail: (err) => {
 			loading.value = false
@@ -109,7 +121,7 @@ function handleLogin() {
 		}
 	})
 	// #endif
-	
+
 	// H5 微信登录（需要跳转到微信授权页面）
 	// #ifdef H5
 	uni.showToast({

@@ -59,12 +59,28 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import BottomNav from '@/components/general/BottomNav.vue'
+import { readStoredUser, resolveUserName } from '@/utils/user.js'
 
 const user = reactive({
-	name: 'admin',
+	name: '未登录',
 	company: '华某产业股份有限公司'
 })
+
+// 从本地存储同步用户信息
+function syncUserFromStorage() {
+	const u = readStoredUser()
+	if (!u) {
+		user.name = '未登录'
+		return
+	}
+	user.name = resolveUserName(u)
+	// 如果后端有返回公司信息，则覆盖默认公司名
+	if (u.company) {
+		user.company = u.company
+	}
+}
 
 const stats = reactive({
 	devices: 158,
@@ -82,6 +98,13 @@ const menu = reactive([
 	{ title: '密码修改', icon: '🔒', path: '/pages/my/password' },
 	{ title: '关于我们', icon: '📖', path: '/pages/my/about' },
 ])
+
+// 首次进入页面时读取一次
+syncUserFromStorage()
+// 每次页面显示时刷新一次，确保切换账号后能更新
+onShow(() => {
+	syncUserFromStorage()
+})
 
 function goTask(t) {
 	if (t.completed >= t.total) return

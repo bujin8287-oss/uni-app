@@ -14,7 +14,7 @@ function getBaseUrl() {
 
 	// #ifdef APP-PLUS
 	// APP 真机建议改为你电脑局域网 IP，例如 192.168.x.x
-	return 'http://192.168.8.24:3000'
+	return 'http://192.168.101.64:3000'
 	// #endif
 
 	// #ifdef MP-WEIXIN
