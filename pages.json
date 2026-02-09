@@ -1041,6 +1041,42 @@
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black"
 			}
+		},
+		{
+			"path": "pages/approval/index",
+			"style": {
+				"navigationBarTitleText": "审批流程"
+			}
+		},
+		{
+			"path": "pages/approval/start",
+			"style": {
+				"navigationBarTitleText": "发起审批"
+			}
+		},
+		{
+			"path": "pages/approval/detail",
+			"style": {
+				"navigationBarTitleText": "审批详情"
+			}
+		},
+		{
+			"path": "pages/organization/index",
+			"style": {
+				"navigationBarTitleText": "组织架构"
+			}
+		},
+		{
+			"path": "pages/approval-template/index",
+			"style": {
+				"navigationBarTitleText": "审批模板"
+			}
+		},
+		{
+			"path": "pages/approval-template/edit",
+			"style": {
+				"navigationBarTitleText": "编辑模板"
+			}
 		}
 	],
 	"globalStyle": {
