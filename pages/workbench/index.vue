@@ -25,9 +25,11 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import BottomNav from '@/components/general/BottomNav.vue'
 import { openFeature } from '../../components/business/featureNavigation'
+
 const sections = reactive([
 	{
 		key: 'plan',
@@ -81,6 +83,43 @@ const sections = reactive([
 		],
 	},
 ])
+
+// 根据用户权限动态添加管理功能
+function loadManagementFeatures() {
+	try {
+		const user = uni.getStorageSync('user')
+		if (!user) return
+		
+		const permissionLevel = user.permissionLevel || 0
+		
+		// 权限级别 3 及以上（总经理）可以看到管理功能
+		if (permissionLevel >= 3) {
+			// 检查是否已经添加了管理模块
+			const hasManagement = sections.some(s => s.key === 'management')
+			if (!hasManagement) {
+				sections.push({
+					key: 'management',
+					title: '系统管理',
+					items: [
+						{ name: '组织架构', icon: '🏢' },
+						{ name: '审批模板', icon: '📝' },
+						{ name: '审批流程', icon: '🔄' },
+					],
+				})
+			}
+		}
+	} catch (e) {
+		console.error('加载管理功能失败:', e)
+	}
+}
+
+onMounted(() => {
+	loadManagementFeatures()
+})
+
+onShow(() => {
+	loadManagementFeatures()
+})
 
 </script>
 

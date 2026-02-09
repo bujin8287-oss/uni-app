@@ -69,6 +69,68 @@ export const api = {
 			data: { phone, accessToken, openid, authResult },
 		})
 	},
+
+	// 组织架构管理 - 部门
+	getDepartments() {
+		return request({
+			url: '/approval/departments',
+			method: 'GET',
+		})
+	},
+
+	createDepartment(data) {
+		return request({
+			url: '/approval/departments',
+			method: 'POST',
+			data,
+		})
+	},
+
+	updateDepartment(id, data) {
+		return request({
+			url: `/approval/departments/${id}`,
+			method: 'PUT',
+			data,
+		})
+	},
+
+	deleteDepartment(id) {
+		return request({
+			url: `/approval/departments/${id}`,
+			method: 'DELETE',
+		})
+	},
+
+	// 组织架构管理 - 岗位
+	getPositions() {
+		return request({
+			url: '/approval/positions',
+			method: 'GET',
+		})
+	},
+
+	createPosition(data) {
+		return request({
+			url: '/approval/positions',
+			method: 'POST',
+			data,
+		})
+	},
+
+	updatePosition(id, data) {
+		return request({
+			url: `/approval/positions/${id}`,
+			method: 'PUT',
+			data,
+		})
+	},
+
+	deletePosition(id) {
+		return request({
+			url: `/approval/positions/${id}`,
+			method: 'DELETE',
+		})
+	},
 }
 
 export default api
