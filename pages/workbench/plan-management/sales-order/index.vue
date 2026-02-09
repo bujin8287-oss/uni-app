@@ -1,14 +1,16 @@
 <template>
     <view class="sales-page">
-        <view class="header">
-            <view class="nav-left" @click="back">
-                <text class="back-icon">‹</text>
-            </view>
-            <text class="title">销售订单</text>
-            <view class="action" @click="onAdd">新增</view>
-        </view>
+        <!-- 自定义导航栏 -->
+        <CustomNavBar 
+            title="销售订单" 
+            :show-back="true"
+            :show-add="true"
+            add-text="新增"
+            @add="onAdd"
+        />
 
-        <scroll-view class="list" scroll-y>
+        <!-- 销售订单列表 -->
+        <scroll-view class="list" scroll-y :style="listStyle">
             <view class="card" v-for="item in orders" :key="item.id" @click="openDetail(item)">
                 <view class="card-top">
                     <view class="tag">{{ item.type }}</view>
@@ -28,12 +30,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import api from '@/api'
+import CustomNavBar from '@/components/general/CustomNavBar.vue'
 
 const orders = ref([])
 const page = ref(1)
 const pageSize = ref(10)
+
+// 列表区域样式（避开导航栏）
+const listStyle = computed(() => {
+    return {
+        height: `calc(100vh - ${132}px)`,
+        marginTop: '80px'
+    }
+})
 
 async function loadOrders() {
     try {
@@ -55,43 +66,17 @@ function onAdd() {
     uni.navigateTo({ url: '/pages/workbench/plan-management/sales-order/add' })
 }
 
-function back() {
-    uni.navigateBack()
-}
-
 onMounted(() => {
     loadOrders()
 })
 </script>
 
-<style scoped>
+<style>
 .sales-page {
     padding: 20rpx;
     background: #f7f6fb;
     min-height: 100vh;
     padding-bottom: 160rpx;
-}
-
-.header {
-    height: 88rpx;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10rpx;
-}
-
-.title {
-    font-size: 28rpx;
-    font-weight: 700;
-}
-
-.action {
-    color: #5b4bff;
-    font-size: 22rpx;
-}
-
-.list {
-    height: calc(100vh - 120rpx);
 }
 
 .card {
@@ -143,3 +128,4 @@ onMounted(() => {
     font-size: 22rpx;
 }
 </style>
+
