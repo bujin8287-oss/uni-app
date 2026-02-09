@@ -132,9 +132,8 @@
 		{
 			"path": "pages/workbench/plan-management/sales-order/index",
 			"style": {
-				"navigationBarTitleText": "销售订单",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#FFFFFF"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
