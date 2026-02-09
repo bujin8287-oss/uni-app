@@ -88,6 +88,20 @@ export function openFeature(item) {
 		return
 	}
 
+	// 系统管理功能
+	if (item.name === '组织架构') {
+		uni.navigateTo({ url: '/pages/organization/index' })
+		return
+	}
+	if (item.name === '审批模板') {
+		uni.navigateTo({ url: '/pages/approval-template/index' })
+		return
+	}
+	if (item.name === '审批流程') {
+		uni.navigateTo({ url: '/pages/approval/index' })
+		return
+	}
+
 	// 其他功能跳转到通用功能页
 	const url = `/pages/feature/index?name=${encodeURIComponent(item.name)}`
 	uni.navigateTo({ url })
